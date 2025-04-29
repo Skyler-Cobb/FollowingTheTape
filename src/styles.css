@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* optional CSS-first config */
+@theme {
+    --brand: #5773ff;
+}
