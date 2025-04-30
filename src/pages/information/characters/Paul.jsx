@@ -1,9 +1,9 @@
 import React from 'react';
-import withLayout from '../../hoc/withLayout.jsx';
+import withLayout from '../../../hoc/withLayout.jsx';
 
-const PAGE_TITLE = 'About This Site';
+const PAGE_TITLE = 'Paul';
 
-function AboutThisSite() {
+function Paul() {
     return (
         <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
             <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
@@ -14,4 +14,4 @@ function AboutThisSite() {
     );
 }
 
-export default withLayout(AboutThisSite);
+export default withLayout(Paul);

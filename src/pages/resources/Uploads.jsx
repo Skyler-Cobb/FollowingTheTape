@@ -3,7 +3,7 @@ import withLayout from '../../hoc/withLayout.jsx';
 
 const PAGE_TITLE = 'Uploads';
 
-function Placeholder() {
+function Uploads() {
     return (
         <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
             <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
@@ -14,4 +14,4 @@ function Placeholder() {
     );
 }
 
-export default withLayout(Placeholder);
+export default withLayout(Uploads);

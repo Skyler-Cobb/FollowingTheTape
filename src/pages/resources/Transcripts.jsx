@@ -1,78 +1,77 @@
-/* ── src/pages/resources/Transcripts.jsx ───────────────────── */
-import React, { useState } from 'react';
-import withLayout from '../../hoc/withLayout.jsx';
+// src/pages/Transcripts.jsx
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import withLayout from '../../hoc/withLayout.jsx';
 
-/* 1 ▌Collect every *.md in public/transcripts at build-time ──
-   import.meta.glob works in Vite even for files inside /public.
-   { as:'raw', eager:true } returns an object: { path: string ⇒ source: string } */
-const modules = import.meta.glob('/public/transcripts/*.md', {
-    as: 'raw',
-    eager: true,
-});
+const PAGE_TITLE = 'Transcripts';
 
-/* 2 ▌Normalize to an array and sort by numeric prefix [n] ────── */
-const transcripts = Object.entries(modules)
-    .map(([path, source]) => {
-        const fileName = path.split('/').pop();
-        const [, num, titlePart = 'Transcript'] =
-        fileName.match(/^\[(\d+)]\s*([^.]*)/) || [];
-        return {
-            key: num ? Number(num) : Infinity,
-            label: `[${num}] ${titlePart.trim() || 'Transcript'}`,
-            md: source,
-        };
-    })
-    .sort((a, b) => a.key - b.key);
+// ←–– Manually list your filenames here ↑––↓–– add new ones as you drop in more files
+const transcriptFiles = [
+    '[1] 1. the house with the strange light.md',
+    '[2] ？？？？？？？.md',
+    '[3] 2. the abandoned car.md',
+    '[4] 3. ....more coffee？.md',
+    '[5] $$$ ORDER YOUR VERY OWN BRINE.... TODAY!!!!.md',
+    '[6] 4. soooo... i\'ve got some news... .md',
+    '[7] 5. the Midnight Riddle Hour.md',
+    '[8] ¿.md',
+    '[9] 6. are there words.md',
+    '[10] Your Personal Deal Guy.md',
+    '[11] 833-NO-BRINR.md'
+];
 
-/* 3 ▌UI ------------------------------------------------------- */
 function Transcripts() {
-    const [current, setCurrent] = useState(0);
+    const [selectedFile, setSelectedFile] = useState(transcriptFiles[0]);
+    const [content, setContent] = useState('');
 
-    if (!transcripts.length) {
-        return (
-            <main className="flex min-h-[60vh] items-center justify-center">
-                <p className="text-lg text-gray-600">No transcripts found.</p>
-            </main>
-        );
-    }
-
-    const active = transcripts[current];
+    // Fetch the Markdown whenever the selection changes
+    useEffect(() => {
+        fetch(`/transcripts/${selectedFile}`)
+            .then(res => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.text();
+            })
+            .then(text => setContent(text))
+            .catch(err => setContent(`# Error loading transcript\n${err.message}`));
+    }, [selectedFile]);
 
     return (
-        <div className="flex min-h-[70vh] border-t border-gray-300 dark:border-gray-700">
-            {/* sidebar */}
-            <aside className="w-64 shrink-0 overflow-y-auto border-r border-gray-300 bg-gray-50 dark:bg-gray-800">
-                <ul>
-                    {transcripts.map((t, i) => (
-                        <li key={t.key}>
-                            <button
-                                onClick={() => setCurrent(i)}
-                                className={`w-full px-4 py-2 text-left transition-colors
-                  ${
-                                    i === current
-                                        ? 'bg-brand-500 text-white'
-                                        : 'text-gray-800 hover:bg-gray-200 dark:text-gray-100 dark:hover:bg-gray-700'
-                                }`}
-                            >
-                                {t.label}
-                            </button>
-                        </li>
-                    ))}
+        <main className="flex min-h-[60vh] overflow-hidden">
+            {/* Sidebar */}
+            <aside className="w-1/4 border-r bg-gray-50 p-4">
+                <h2 className="mb-4 text-xl font-semibold">{PAGE_TITLE}</h2>
+                <ul className="space-y-2">
+                    {transcriptFiles.map(file => {
+                        // turn "[3].md" → "3"
+                        const label = file.replace(/^\[(\d+)\]\.md$/, '$1');
+                        const isActive = file === selectedFile;
+                        return (
+                            <li key={file}>
+                                <button
+                                    onClick={() => setSelectedFile(file)}
+                                    className={
+                                        `block w-full text-left px-2 py-1 rounded transition ` +
+                                        (isActive
+                                            ? 'bg-gray-200 font-medium'
+                                            : 'hover:bg-gray-100')
+                                    }
+                                >
+                                    Transcript {label}
+                                </button>
+                            </li>
+                        );
+                    })}
                 </ul>
             </aside>
 
-            {/* markdown viewer */}
-            <section className="flex-1 overflow-y-auto p-6">
-                <ReactMarkdown
-                    className="prose max-w-none prose-slate dark:prose-invert"
-                    remarkPlugins={[remarkGfm]}
-                >
-                    {active.md}
+            {/* Content area */}
+            <article className="prose flex-1 overflow-auto p-6">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {content}
                 </ReactMarkdown>
-            </section>
-        </div>
+            </article>
+        </main>
     );
 }
 

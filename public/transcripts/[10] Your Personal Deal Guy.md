@@ -1,87 +1,68 @@
-**Your Personal Deal Guy**  
-Link: [https://www.youtube.com/watch?v=GX4GHAtnwzo](https://www.youtube.com/watch?v=GX4GHAtnwzo)
+**Your Personal Deal Guy** 
+Embed Code: <iframe width="951" height="535" src="https://www.youtube.com/embed/eBA_oV_6Gko" title="Your Personal Deal Guy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Transcript:
 
-Opens with "Mr Pickles" holding a piece of paper with "YOUR PERSONAL DEAL GUY" printed repeatedly.
-
-\[Mr. Pickles\] Hey... have I got a deal for you...
-
-\*explosion\*
-
-*Briefly flashing on screen, red background black text:* **5.6..3.** (translates to "THE")
-
-\*returns to commercial appearance\*
-
-*\[on screen: "CALL 833-NO-BRINR"\]*
-
-\[Mr. Pickles\] H-Hey\! H-have I got a deal for you...? Ha... I think I do\!\!  
-\[Mr. Pickles\] Tired of getting nowhere?  
-\[Mr. Pickles\] \*garbled fast speech\* I feel *good*.  
-\[Mr. Pickles\] \*clears throat\* Premium triple-A brine, 
-
-*Briefly flashing on screen, red background black text:* **4.3.1..3..6.** (translates to "READY")
-
-\[Mr. Pickles\] this ain't your granddad's brine-
-
-*Briefly on screen, red background no text.*
-
-* \[Mr. Pickles cutting in\] *No*
-
-\[Mr. Pickles\] It's not your grandma's brine-
-
-* \[Mr. Pickles cutting in\] *No no no no no*  
-  * \[Mr. Pickles cutting in\] *No no no*  
-  * \[Mr. Pickles cutting in\] *No no no no*
-
-\[Mr. Pickles\] It's *your* brine.  
-\[Mr. Pickles\] It's *yours*.  
-\[Mr. Pickles\] And none fo that "we don't use cucumbers" "overpriced" hootenanny,   
-\[Mr. Pickles\] \*garbled/sped up speech\*  
-\[Mr. Pickles\] \*clears throat\*  
-\[Mr. Pickles\] It's healthy.  
-\[Mr. Pickles\] Screw the origin story peter pals and get in your feeder pins and cut the *crap.*  
-\[Mr. Pickles\] My brine is twice as nice-  
-*Briefly flashing on screen, red background black text:* **2.8.9..9..** (translates to "WILL")  
-\[Mr. Pickles\] \-for half the price and you *know*.  
-\[Mr. Pickles\] Gimme that *good, clean, honest* brine\!  
-\[Mr. Pickles\] Gimme the classic kind\!  
-\[Mr. Pickles\] I'm practically giving it away, you know me\! I'm a personal deal guy\!  
-\[Mr. Pickles\] *Gimme*  
-\[Mr. Pickles\] Just give me a call. Give me a call.  
-\[Mr. Pickles\] Just give me a call. *Please*, call me.  
-\[Mr. Pickles\] So.  
-\[Mr. Pickles\] Gimme a call\!  
-\[Mr. Pickles\] The deal is *running* out-  
-*Briefly on screen, red background no text.*  
-\[Mr. Pickles\] \-the door, it's outta here.  
-\[Mr. Pickles\] It's going *woah*, it's going right... it-it's going...
-
-* \*Screen is shrinking, revealing a video behind it of a snail.\*
-
-  *Briefly flashing on screen, red background black text:* **9..3.1..3..** (translates to "LEAD")
-
-\[Mr. Pickles\] \-the door, it's outta here.
-
-* \*the video is gone entirely, just a silent video of a snail for almost a second.\*
-
-\[Mr. Pickles\] Oh, I'm back\!  
-\[Mr. Pickles\] \*slightly more somber sounding\* I just want to help... I just want to be there for you... just call me and just tell me what you need and I'll just, I'll come right on over and y'know I'll do whatever it-  
-\[Mr. Pickles\] \*back to normal\* See that timer? Where is it, where's that timer, there it is, right in front of ya.  
-\[Mr. Pickles\] That's how long you got before this deal-  
-*Briefly flashing on screen, red background black text:* **5.6..3.** (translates to "THE")  
-\[Mr. Pickles\] \-is up, and it's running *out*.
-
-* \*explosion\*
-
-\[Mr. Pickles\] \*as if clearing throat\* Ugh... buh...  
-\[Mr. Pickles\] \*somber again\* You'll like it... you'll tell people about it... tell people about me, too...  
-\[Mr. Pickles\] \*energetic again\* You can boil it, drink it cold, freeze it and lick it...  
-\[Mr. Pickles\] I put it into a little lollipop...  
-*Briefly flashing on screen, red background black text:* **2.1..6.** (translates to "WAY")  
-\[Mr. Pickles\] It's delicious.  
-\[Mr. Pickles\] S-sometimes I'll put a little fish in there, and then I'll freeze it, and then I'll have a lollipop with a *fish* that's made of *brine*.  
-\[Mr. Pickles\] Call me\!  
-\[Mr. Pickles\] I'm a personal deal guy\!
-
-* \*Screen glitches, flashes red a couple times. Mr. Pickles looks frustrated about something, stomping his feet.\*
+| Timestamp | Info | Ad Read | On-Screen |
+|:---------:|:---------|:---------|:---------|
+| | Opens with “Mr. Pickles” holding a piece of paper with “YOUR PERSONAL DEAL GUY” printed repeatedly. | | |
+| | | **[Mr. Pickles]** Hey… have I got a deal for you… | |
+| | *explosion* | | |
+| | | | 5.6..3. (translates to “THE”) |
+| | *returns to commercial appearance* | | |
+| | | | CALL 833-NO-BRINR |
+| | | **[Mr. Pickles]** H-Hey! H-have I got a deal for you…? Ha… I think I do!! | |
+| | | **[Mr. Pickles]** Tired of getting nowhere? | |
+| | | **[Mr. Pickles]** *garbled fast speech* I feel good. | |
+| | | **[Mr. Pickles]** *clears throat* Premium triple-A brine, | |
+| | | | 4.3.1..3..6. (translates to “READY”) |
+| | | **[Mr. Pickles]** this ain't your granddad’s brine- | |
+| | Briefly on screen, red background no text. | | |
+| | | **[Mr. Pickles]** No | |
+| | | **[Mr. Pickles]** It’s not your grandma’s brine- | |
+| | | **[Mr. Pickles]** No no no no no | |
+| | | **[Mr. Pickles]** No no no | |
+| | | **[Mr. Pickles]** No no no no | |
+| | | **[Mr. Pickles]** It’s your brine. | |
+| | | **[Mr. Pickles]** It’s yours. | |
+| | | **[Mr. Pickles]** And none of that “we don’t use cucumbers” “overpriced” hootenanny, | |
+| | | **[Mr. Pickles]** *garbled/sped up speech* | |
+| | | **[Mr. Pickles]** *clears throat* | |
+| | | **[Mr. Pickles]** It’s healthy. | |
+| | | **[Mr. Pickles]** Screw the origin story peter pals and get in your feeder pens and cut the crap. | |
+| | | **[Mr. Pickles]** My brine is twice as nice- | |
+| | | | 2.8.9..9.. (translates to “WILL”) |
+| | | **[Mr. Pickles]** -for half the price and you know. | |
+| | | **[Mr. Pickles]** Gimme that good, clean, honest brine! | |
+| | | **[Mr. Pickles]** Gimme the classic kind! | |
+| | | **[Mr. Pickles]** I’m practically giving it away, you know me! I’m a personal deal guy! | |
+| | | **[Mr. Pickles]** Gimme | |
+| | | **[Mr. Pickles]** Just give me a call. Give me a call. | |
+| | | **[Mr. Pickles]** Just give me a call. Please, call me. | |
+| | | **[Mr. Pickles]** So. | |
+| | | **[Mr. Pickles]** Gimme a call! | |
+| | | **[Mr. Pickles]** The deal is running out- | |
+| | Briefly on screen, red background no text. | | |
+| | | **[Mr. Pickles]** -the door, it’s outta here. | |
+| | | **[Mr. Pickles]** It’s going woah, it’s going right… it-it’s going… | |
+| | *Screen is shrinking, revealing a video behind it of a snail.* | | |
+| | | | 9..3.1..3.. (translates to “LEAD”) |
+| | | **[Mr. Pickles]** -the door, it’s outta here. | |
+| | *the video is gone entirely, just a silent video of a snail for almost a second.* | | |
+| | | **[Mr. Pickles]** Oh, I’m back! | |
+| | | **[Mr. Pickles]** *slightly more somber sounding* I just want to help… I just want to be there for you… just call me and just tell me what you need and I’ll just, I’ll come right on over and y’know I’ll do whatever it- | |
+| | | **[Mr. Pickles]** *back to normal* See that timer? Where is it, where’s that timer, there it is, right in front of ya. | |
+| | | **[Mr. Pickles]** That’s how long you got before this deal- | |
+| | | | 5.6..3. (translates to “THE”) |
+| | | **[Mr. Pickles]** -is up, and it’s running out. | |
+| | *explosion* | | |
+| | | **[Mr. Pickles]** *as if clearing throat* Ugh… buh… | |
+| | | **[Mr. Pickles]** *somber again* You’ll like it… you’ll tell people about it… tell people about me, too… | |
+| | | **[Mr. Pickles]** *energetic again* You can boil it, drink it cold, freeze it and lick it… | |
+| | | **[Mr. Pickles]** I put it into a little lollipop… | |
+| | | | 2.1..6. (translates to “WAY”) |
+| | | **[Mr. Pickles]** It’s delicious. | |
+| | | **[Mr. Pickles]** S-sometimes I’ll put a little fish in there, and then I’ll freeze it, and then I’ll have a lollipop with a fish that’s made of brine. | |
+| | | **[Mr. Pickles]** Call me! | |
+| | | **[Mr. Pickles]** I’m a personal deal guy! | |
+| | *Screen glitches, flashes red a couple times. Mr. Pickles looks frustrated about something, stomping his feet.* | | |
