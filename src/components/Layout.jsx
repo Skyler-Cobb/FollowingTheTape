@@ -2,22 +2,23 @@ import React, { useEffect } from 'react'
 import Banner from './Banner'
 import Navbar from './Navbar'
 
-const Layout = ({ children, title }) => {
+export default function Layout({ children, title }) {
     useEffect(() => {
         document.title = title || 'Following The Tapes'
     }, [title])
 
     return (
-        <>
-            <header className="w-full">
+        <div className="flex h-screen flex-col">
+            {/* ── Fixed header ─────────────────────────────────────── */}
+            <header className="flex-shrink-0 w-full">
                 <Banner />
                 <Navbar />
             </header>
 
-            {/* main content area */}
-            <main className="mx-auto max-w-7xl p-4">{children}</main>
-        </>
+            {/* ── Main content (fills remaining space) ─────────────── */}
+            <main className="flex flex-1 w-full overflow-hidden p-4">
+                {children}
+            </main>
+        </div>
     )
 }
-
-export default Layout
