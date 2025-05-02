@@ -1,0 +1,18 @@
+created: 20250501091728282
+modified: 20250501092458527
+tags: puzzle
+title: Phone Keyboard Cipher
+type: text/vnd.tiddlywiki
+
+The Phone Keyboard Cipher is a code used early on in the ARG, based on a Samsung phone's keyboard. Letters were replaced with the symbol corresponding to that key, so to translate, one just had to do the same in reverse. A full translation key is below:
+
+|Code|Translation|Code|Translation|Code|Translation|
+|\!|A|\*|J|@|S|
+|;|B|(|K|/|T|
+|.|C|)|L|\<|U|
+|\#|D|?|M|:|V|
+|÷|E|,|N|×|W|
+|$|F|\[|O|'|X|
+|%|G|\]|P|_|Y|
+|&|H|\+|Q|-|Z|
+|\>|I|=|R|||
