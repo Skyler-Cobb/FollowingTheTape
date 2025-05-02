@@ -1,0 +1,39 @@
+{
+    "metadata": "Phone Keyboard Cipher",
+    "settings": {
+      "word_separator": " ",
+      "character_separator": null,
+      "chunk_size": [1, 1],
+      "padding": [null, null],
+      "reverse_direction": false
+    },
+    "encoding": {
+      "!": "A",
+      "B": "B",
+      "C": "C",
+      "#": "D",
+      "÷": "E",
+      "$": "F",
+      "%": "G",
+      "^": "H",
+      ">": "I",
+      "&": "J",
+      "*": "K",
+      ")": "L",
+      "M": "M",
+      ",": "N",
+      "[": "O",
+      "P": "P",
+      "Q": "Q",
+      "=": "R",
+      "@": "S",
+      "/": "T",
+      "<": "U",
+      "V": "V",
+      "×": "W",
+      "X": "X",
+      "_": "Y",
+      "Z": "Z"
+    }
+  }
+  

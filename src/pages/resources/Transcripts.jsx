@@ -113,3 +113,6 @@ function Transcripts() {
 }
 
 export default withLayout(Transcripts)
+
+/* declare what THIS page wants from the layout */
+Transcripts.layoutOpts = { fullWidth: true, flex: true }

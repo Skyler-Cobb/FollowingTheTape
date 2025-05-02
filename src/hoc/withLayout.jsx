@@ -1,16 +1,19 @@
-// src/hoc/withLayout.jsx
-import React from 'react';
-import Layout from '../components/Layout';
+import React from 'react'
+import Layout from '../components/Layout'
 
-// eslint-disable-next-line no-unused-vars
-const withLayout = (WrappedComponent) => {
-    return function LayoutWrapper(props) { // Named function for ESLint
+/**
+ * Pages can export:
+ *   MyPage.layoutOpts = { fullWidth: true, flex: true }
+ */
+const withLayout = (Wrapped) => {
+    return function LayoutWrapper(props) {
+        const layoutOpts = Wrapped.layoutOpts || {}
         return (
-            <Layout title={props.title}>
-                <WrappedComponent {...props} />
+            <Layout title={props.title} layoutOpts={layoutOpts}>
+                <Wrapped {...props} />
             </Layout>
-        );
-    };
-};
+        )
+    }
+}
 
-export default withLayout;
+export default withLayout

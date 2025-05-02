@@ -3,28 +3,28 @@
 /* ---- custom font: Courier Prime ------------------------------------ */
 @font-face {
   font-family: "Courier Prime";
-  src: url("../public/assets/fonts/CourierPrime-Regular.ttf") format("truetype");
+  src: url("public/assets/fonts/CourierPrime-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Courier Prime";
-  src: url("../public/assets/fonts/CourierPrime-Bold.ttf") format("truetype");
+  src: url("public/assets/fonts/CourierPrime-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Courier Prime";
-  src: url("../public/assets/fonts/CourierPrime-Italic.ttf") format("truetype");
+  src: url("public/assets/fonts/CourierPrime-Italic.ttf") format("truetype");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: "Courier Prime";
-  src: url("../public/assets/fonts/CourierPrime-BoldItalic.ttf") format("truetype");
+  src: url("public/assets/fonts/CourierPrime-BoldItalic.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
