@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ---- custom font: Courier Prime ------------------------------------ */
 @font-face {
   font-family: "Courier Prime";
   src: url("../public/assets/fonts/CourierPrime-Regular.ttf") format("truetype");
@@ -96,19 +97,25 @@ button:focus-visible {
   }
 }
 
+/* --------------------------------------------------------------------------
+   3) Transcript table styling
+   -------------------------------------------------------------------------- */
+/* cell padding + border */
 .transcript-table th,
 .transcript-table td {
   padding: 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
 }
 
+/* first column = Timestamp (smaller + lighter) */
 .transcript-table th:first-child,
 .transcript-table td:first-child {
-  color: #6b7280;
-  font-size: 0.875rem;
+  color: #6b7280;      /* gray-500 */
+  font-size: 0.875rem; /* text-sm */
   white-space: nowrap;
 }
 
+/* subtle, dark zebra stripes */
 .transcript-table tr:nth-child(even) {
   background-color: rgba(255, 255, 255, 0.05);
 }
