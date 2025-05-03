@@ -1,178 +1,264 @@
-// Spectrogram.jsx
+// Spectrogram.jsx – responsive scrolling spectrogram
 import React, { useState, useRef, useEffect } from 'react';
 import withLayout from '../../hoc/withLayout.jsx';
 
-const PAGE_TITLE = 'Spectrogram Analyzer';
+/* ── title ───────────────────────── */
+const PAGE_TITLE = 'Spectrogram';
 
-/* ─── tweakables ─────────────────────────────── */
-const FFT_SIZE      = 2048;   // 1024‑8192
-const CSS_SCROLL_PX = 2;      // visible scroll speed in *CSS* pixels
-const LOG_Y         = true;   // log‑scale Y axis?
-/* ─────────────────────────────────────────────── */
+/* ── analyser & defaults ─────────── */
+const FFT_SIZE       = 2048;
+const MIN_DB         = -100;
+const MAX_DB         = -30;
+
+const DEFAULT_GAMMA  = 1.3;
+const DEFAULT_SCROLL = 1;
+const DEFAULT_WIN_S  = 10;    // seconds visible
+/* ────────────────────────────────── */
 
 function Spectrogram() {
-    /* state & refs */
-    const [isPlaying, setIsPlaying] = useState(false);
+    /* —— state —— */
     const [audioUrl,  setAudioUrl]  = useState('');
+    const [isPlaying, setIsPlaying] = useState(false);
 
-    const canvasRef   = useRef(null);
-    const audioRef    = useRef(null);
+    const [gamma,     setGamma]     = useState(DEFAULT_GAMMA);
+    const [scrollF,   setScrollF]   = useState(DEFAULT_SCROLL);
+    const [winSec,    setWinSec]    = useState(DEFAULT_WIN_S);
+    const [playRate,  setPlayRate]  = useState(1);
 
-    const ctxRef      = useRef(null);
-    const analyserRef = useRef(null);
-    const sourceRef   = useRef(null);
+    const [logScale,  setLogScale]  = useState(false);   // default = linear
 
-    const rafRef      = useRef(null);
-    const dprRef      = useRef(window.devicePixelRatio || 1);  // device‑pixel ratio
+    const [curTime,   setCurTime]   = useState(0);
+    const [duration,  setDuration]  = useState(0);
 
-    /* create AudioContext + Analyser once */
+    /* —— refs visible in draw() —— */
+    const gRef   = useRef(gamma);
+    const sRef   = useRef(scrollF);
+    const wRef   = useRef(winSec);
+    const logRef = useRef(logScale);
+    const playR  = useRef(isPlaying);
+
+    /* —— DOM & audio graph —— */
+    const canvasRef = useRef(null);
+    const audioRef  = useRef(null);
+
+    const ctxRef    = useRef(null);   // AudioContext
+    const anaRef    = useRef(null);
+    const srcRef    = useRef(null);
+
+    const rafRef    = useRef(null);
+    const lastTS    = useRef(null);
+    const dpr       = useRef(window.devicePixelRatio || 1);
+
+    /* —— keep refs in sync —— */
+    useEffect(() => { gRef.current   = gamma;     }, [gamma]);
+    useEffect(() => { sRef.current   = scrollF;   }, [scrollF]);
+    useEffect(() => { wRef.current   = winSec;    }, [winSec]);
+    useEffect(() => { logRef.current = logScale;  }, [logScale]);
+    useEffect(() => { playR.current  = isPlaying; }, [isPlaying]);
+
+    /* —— create AudioContext once —— */
     useEffect(() => {
-        const ctx  = new (window.AudioContext || window.webkitAudioContext)();
-        const ana  = ctx.createAnalyser();
-        ana.fftSize               = FFT_SIZE;
-        ana.smoothingTimeConstant = 0;
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const an  = ctx.createAnalyser();
+        an.fftSize               = FFT_SIZE;
+        an.smoothingTimeConstant = 0;
+        an.minDecibels           = MIN_DB;
+        an.maxDecibels           = MAX_DB;
 
-        ctxRef.current      = ctx;
-        analyserRef.current = ana;
+        ctxRef.current = ctx;
+        anaRef.current = an;
 
-        return () => {
-            if (rafRef.current)      cancelAnimationFrame(rafRef.current);
-            if (sourceRef.current)   sourceRef.current.disconnect();
-            ctx.close();
-        };
+        return () => { ctx.close(); };
     }, []);
 
-    /* re‑wire when a new file is chosen */
+    /* —— reconnect graph & size canvas on file load —— */
     useEffect(() => {
         if (!audioUrl || !audioRef.current) return;
 
-        const source = ctxRef.current.createMediaElementSource(audioRef.current);
-        source.connect(analyserRef.current);
-        analyserRef.current.connect(ctxRef.current.destination);
-        sourceRef.current = source;
+        const src = ctxRef.current.createMediaElementSource(audioRef.current);
+        src.connect(anaRef.current);
+        anaRef.current.connect(ctxRef.current.destination);
+        srcRef.current = src;
 
-        /* Hi‑DPI canvas: enlarge backing store, keep CSS size */
-        const canvas   = canvasRef.current;
-        const dpr      = dprRef.current;
-        const cssW     = canvas.offsetWidth;
-        const cssH     = canvas.offsetHeight;
-
-        canvas.width   = cssW * dpr;          // device px
-        canvas.height  = cssH * dpr;
-        canvas.style.width  = `${cssW}px`;    // keep physical size
-        canvas.style.height = `${cssH}px`;
-        canvas.getContext('2d').imageSmoothingEnabled = false; // no blurring
+        const c = canvasRef.current;
+        const resize = () => {
+            const cssW = c.offsetWidth, cssH = c.offsetHeight;
+            c.width  = cssW * dpr.current;
+            c.height = cssH * dpr.current;
+            c.style.width  = `${cssW}px`;
+            c.style.height = `${cssH}px`;
+            c.getContext('2d').imageSmoothingEnabled = false;
+        };
+        resize();
+        window.addEventListener('resize', resize);
+        return () => window.removeEventListener('resize', resize);
     }, [audioUrl]);
 
-    /* colour helper – green‑yellow → red (like borismus’ getFullColor) */
+    /* —— sync playback‑rate —— */
+    useEffect(() => { if (audioRef.current) audioRef.current.playbackRate = playRate; },
+        [playRate]);
+
+    /* —— keep curTime / duration —— */
+    useEffect(() => {
+        if (!audioRef.current) return;
+        const a = audioRef.current;
+        const t = () => setCurTime(a.currentTime);
+        const d = () => setDuration(a.duration ?? 0);
+        a.addEventListener('timeupdate', t);
+        a.addEventListener('durationchange', d);
+        return () => { a.removeEventListener('timeupdate', t);
+            a.removeEventListener('durationchange', d); };
+    }, [audioUrl]);
+
+    /* —— colour map: deep red tops —— */
     const ampToColor = v => {
-        const hue = 62 - 62 * (v / 255);
-        return `hsl(${hue},100%,50%)`;
+        const n = Math.pow(v / 255, gRef.current);
+        if (n < 0.02) return 'hsl(0,0%,0%)';          // silence
+        const hue   = 60 - 60 * n;                    // 60° → 0°
+        const light = 12 + 28 * n;                    // 12 % → 40 %  (deeper red)
+        return `hsl(${hue},100%,${light}%)`;
     };
 
-    /* main render loop – all coords in device pixels */
-    const draw = () => {
-        const canvas  = canvasRef.current;
-        const ctx     = canvas.getContext('2d');
-        const dpr     = dprRef.current;
+    /* —— draw loop —— */
+    const draw = ts => {
+        const c   = canvasRef.current;
+        const ctx = c.getContext('2d');
 
-        const widthPx  = canvas.width;    // device‑pixel geometry
-        const heightPx = canvas.height;
+        const prev = lastTS.current ?? ts;
+        const dt   = ts - prev;
+        lastTS.current = ts;
 
-        const scrollPx = CSS_SCROLL_PX * dpr; // how far to move & how wide to paint
+        const base = (dt / 1000) * (c.width / wRef.current);
+        const step = Math.max(1, Math.round(base * sRef.current));
 
-        /* scroll old bitmap left */
-        ctx.drawImage(canvas, -scrollPx, 0);
+        ctx.drawImage(c, -step, 0);
+        ctx.clearRect(c.width - step, 0, step, c.height);
 
-        /* clear the stripe that will hold new data */
-        ctx.clearRect(widthPx - scrollPx, 0, scrollPx, heightPx);
-
-        /* fetch one FFT slice */
-        const bins = analyserRef.current.frequencyBinCount;
+        const bins = anaRef.current.frequencyBinCount;
         const data = new Uint8Array(bins);
-        analyserRef.current.getByteFrequencyData(data);
+        anaRef.current.getByteFrequencyData(data);
 
-        /* paint right‑hand stripe */
-        for (let y = 0; y < heightPx; y++) {
-            const bin = LOG_Y
-                ? Math.round(Math.pow(y / heightPx, 2) * (bins - 1))  // log scale
-                : Math.round((y / heightPx) * (bins - 1));            // linear scale
-            const val = data[bin];
-
-            ctx.fillStyle = ampToColor(val);
-            ctx.fillRect(widthPx - scrollPx, heightPx - 1 - y, scrollPx, 1);
+        for (let y = 0; y < c.height; y++) {
+            const bin = logRef.current
+                ? Math.round(Math.pow(y / c.height, 2) * (bins - 1))
+                : Math.round((y / c.height) * (bins - 1));
+            ctx.fillStyle = ampToColor(data[bin]);
+            ctx.fillRect(c.width - step, c.height - 1 - y, step, 1);
         }
 
-        rafRef.current = requestAnimationFrame(draw);
+        if (playR.current) rafRef.current = requestAnimationFrame(draw);
     };
 
-    /* UI handlers */
-    const handlePlayPause = () => {
+    /* —— handlers —— */
+    const playPause = () => {
         if (!audioUrl) return;
 
         if (isPlaying) {
             audioRef.current.pause();
-            cancelAnimationFrame(rafRef.current);
+            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+            rafRef.current = null;
         } else {
-            /* user gesture resumes the AudioContext */
             ctxRef.current.resume().then(() => {
                 audioRef.current.play();
+                lastTS.current = null;
                 rafRef.current = requestAnimationFrame(draw);
             });
         }
         setIsPlaying(!isPlaying);
     };
 
-    const handleFileUpload = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const url = URL.createObjectURL(file);
-        setAudioUrl(url);
-        setIsPlaying(false);   // reset play state
+    const loadFile = e => {
+        const f = e.target.files[0];
+        if (!f) return;
+        setAudioUrl(URL.createObjectURL(f));
+        setIsPlaying(false);
+        setCurTime(0); setDuration(0);
+        /* clear canvas when new file picked */
+        const c = canvasRef.current;
+        c && c.getContext('2d').clearRect(0,0,c.width,c.height);
     };
 
-    /* render */
+    const scrub = e => {
+        if (!audioRef.current) return;
+        const t = +e.target.value;
+        audioRef.current.currentTime = t;
+        setCurTime(t);
+    };
+
+    /* clear + refresh canvas when window length changes */
+    useEffect(() => {
+        const c = canvasRef.current;
+        c && c.getContext('2d').clearRect(0,0,c.width,c.height);
+    }, [winSec]);
+
+    /* —— UI —— */
     return (
-        <main className="flex min-h-[60vh] flex-col items-center gap-6 p-4">
-            <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
+        <main className="flex flex-col gap-6 w-full">
+            <h1 className="text-4xl font-bold">{PAGE_TITLE}</h1>
 
             <canvas
                 ref={canvasRef}
-                width="800"
-                height="400"
-                className="border rounded-lg bg-black w-full max-w-4xl"
+                className="border rounded-lg bg-black w-full h-[40vh] max-h-[500px]"
             />
 
-            <div className="flex gap-4 items-center">
-                <input
-                    type="file"
-                    accept="audio/*"
-                    onChange={handleFileUpload}
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full
-                     file:border-0 file:text-sm file:font-semibold
-                     file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                />
-                <button
-                    onClick={handlePlayPause}
-                    disabled={!audioUrl}
-                    className="px-6 py-2 bg-blue-500 text-white rounded-full
-                     disabled:opacity-50 disabled:cursor-not-allowed
-                     hover:bg-blue-600 transition-colors"
-                >
-                    {isPlaying ? 'Pause' : 'Play'}
-                </button>
-            </div>
+            <section className="flex flex-col gap-4">
+                {duration > 0 && (
+                    <input type="range" min="0" max={duration} step="0.01"
+                           value={curTime} onChange={scrub} className="w-full" />
+                )}
+
+                <div className="flex items-center gap-3">
+                    <input type="file" accept="audio/*" onChange={loadFile}
+                           className="file:mr-3 file:py-1.5 file:px-3 file:rounded-full
+                            file:border-0 file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                    <button onClick={playPause} disabled={!audioUrl}
+                            className="px-5 py-2 bg-blue-500 text-white rounded-full
+                             disabled:opacity-50 hover:bg-blue-600">
+                        {isPlaying ? 'Pause' : 'Play'}
+                    </button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                    <label className="flex flex-col">
+                        Gamma {gamma.toFixed(2)}
+                        <input type="range" min="0.2" max="3" step="0.05"
+                               value={gamma} onChange={e => setGamma(+e.target.value)} />
+                    </label>
+
+                    <label className="flex flex-col">
+                        Playback {playRate.toFixed(2)}×
+                        <input type="range" min="0.25" max="2" step="0.05"
+                               value={playRate} onChange={e => setPlayRate(+e.target.value)} />
+                    </label>
+
+                    <label className="flex flex-col">
+                        Scroll {scrollF.toFixed(2)}×
+                        <input type="range" min="0.25" max="3" step="0.25"
+                               value={scrollF} onChange={e => setScrollF(+e.target.value)} />
+                    </label>
+
+                    <label className="flex flex-col">
+                        Window {winSec}s
+                        <input type="range" min="5" max="30" step="1"
+                               value={winSec} onChange={e => setWinSec(+e.target.value)} />
+                    </label>
+
+                    <label className="flex items-center gap-2 col-span-full">
+                        <input type="checkbox" checked={logScale}
+                               onChange={e => setLogScale(e.target.checked)} />
+                        Logarithmic Y Scale
+                    </label>
+                </div>
+            </section>
 
             {audioUrl && (
-                <audio
-                    ref={audioRef}
-                    src={audioUrl}
-                    onEnded={() => setIsPlaying(false)}
-                    hidden
-                />
+                <audio ref={audioRef} src={audioUrl}
+                       onEnded={() => setIsPlaying(false)} hidden />
             )}
         </main>
     );
 }
 
+Spectrogram.layoutOpts = { fullWidth: true };
 export default withLayout(Spectrogram);
