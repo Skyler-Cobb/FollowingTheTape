@@ -1,185 +1,178 @@
-// src/pages/tools/Spectrogram.jsx
-import React, { useEffect, useRef, useState } from 'react'
-import WaveSurfer from 'wavesurfer.js'
-import SpectrogramPlugin from 'wavesurfer.js/dist/plugins/spectrogram.esm.js'
-import withLayout from '../../hoc/withLayout.jsx'
+// Spectrogram.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import withLayout from '../../hoc/withLayout.jsx';
 
-export default withLayout(Spectrogram)
+const PAGE_TITLE = 'Spectrogram Analyzer';
 
-/** clamp x into [min, max] */
-const clamp = (x, min, max) => (x < min ? min : x > max ? max : x)
+/* ─── tweakables ─────────────────────────────── */
+const FFT_SIZE      = 2048;   // 1024‑8192
+const CSS_SCROLL_PX = 2;      // visible scroll speed in *CSS* pixels
+const LOG_Y         = true;   // log‑scale Y axis?
+/* ─────────────────────────────────────────────── */
 
 function Spectrogram() {
-    const wsRef = useRef(null)
-    const containerRef = useRef(null)
-    const spectroRef = useRef(null)
-    const playHeadRef = useRef(null)
-    const pxPerSecRef = useRef(0)
+    /* state & refs */
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [audioUrl,  setAudioUrl]  = useState('');
 
-    const [fileName, setFileName] = useState('')
-    const [isReady, setIsReady] = useState(false)
-    const [duration, setDuration] = useState(0)
-    const [scale, setScale] = useState('linear')
-    const [zoomWindow, setZoomWindow] = useState(0)
-    const [focusTime, setFocusTime] = useState(0)
+    const canvasRef   = useRef(null);
+    const audioRef    = useRef(null);
 
-    /** Initialize WaveSurfer */
+    const ctxRef      = useRef(null);
+    const analyserRef = useRef(null);
+    const sourceRef   = useRef(null);
+
+    const rafRef      = useRef(null);
+    const dprRef      = useRef(window.devicePixelRatio || 1);  // device‑pixel ratio
+
+    /* create AudioContext + Analyser once */
     useEffect(() => {
-        const ws = WaveSurfer.create({
-            container: containerRef.current,
-            height: 256,
-            interact: true,
-            responsive: true,
-            plugins: [
-                SpectrogramPlugin.create({
-                    container: spectroRef.current,
-                    labels: true,
-                    frequencyScale: scale,
-                    fftSamples: 1024,
-                }),
-            ],
-        })
-        wsRef.current = ws
+        const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+        const ana  = ctx.createAnalyser();
+        ana.fftSize               = FFT_SIZE;
+        ana.smoothingTimeConstant = 0;
 
-        ws.on('ready', () => {
-            const d = ws.getDuration()
-            setDuration(d)
-            setIsReady(true)
-            // reset viewport
-            setZoomWindow(0)
-            setFocusTime(0)
-        })
+        ctxRef.current      = ctx;
+        analyserRef.current = ana;
 
-        ws.on('timeupdate', (time) => {
-            // move play head
-            if (playHeadRef.current && duration > 0) {
-                playHeadRef.current.style.left = `${(time / duration) * 100}%`
-            }
-            // auto-pan if zoomed
-            if (zoomWindow > 0 && pxPerSecRef.current > 0) {
-                const half = zoomWindow / 2
-                const center = clamp(time, half, duration - half)
-                const start = center - half
-                containerRef.current.scrollLeft = start * pxPerSecRef.current
-            }
-        })
+        return () => {
+            if (rafRef.current)      cancelAnimationFrame(rafRef.current);
+            if (sourceRef.current)   sourceRef.current.disconnect();
+            ctx.close();
+        };
+    }, []);
 
-        return () => ws.destroy()
-    }, [scale, duration, zoomWindow])
-
-    /** Handle file upload */
-    const onFile = (e) => {
-        const file = e.target.files?.[0]
-        if (!file || !wsRef.current) return
-        wsRef.current.load(URL.createObjectURL(file))
-        setFileName(file.name)
-    }
-
-    /** Recompute zoom whenever zoomWindow or focusTime changes */
+    /* re‑wire when a new file is chosen */
     useEffect(() => {
-        if (!isReady || !wsRef.current) return
+        if (!audioUrl || !audioRef.current) return;
 
-        const width = containerRef.current.clientWidth
-        if (width <= 0) return
+        const source = ctxRef.current.createMediaElementSource(audioRef.current);
+        source.connect(analyserRef.current);
+        analyserRef.current.connect(ctxRef.current.destination);
+        sourceRef.current = source;
 
-        if (zoomWindow > 0) {
-            // clamp inputs
-            const zw = clamp(zoomWindow, 0, duration)
-            setZoomWindow(zw)
+        /* Hi‑DPI canvas: enlarge backing store, keep CSS size */
+        const canvas   = canvasRef.current;
+        const dpr      = dprRef.current;
+        const cssW     = canvas.offsetWidth;
+        const cssH     = canvas.offsetHeight;
 
-            // pixels per second
-            const pxpsec = width / zw
-            pxPerSecRef.current = pxpsec
-            wsRef.current.zoom(pxpsec)
+        canvas.width   = cssW * dpr;          // device px
+        canvas.height  = cssH * dpr;
+        canvas.style.width  = `${cssW}px`;    // keep physical size
+        canvas.style.height = `${cssH}px`;
+        canvas.getContext('2d').imageSmoothingEnabled = false; // no blurring
+    }, [audioUrl]);
 
-            // initial scroll based on focusTime
-            const half = zw / 2
-            const ft = clamp(focusTime, half, duration - half)
-            setFocusTime(ft)
-            const start = ft - half
-            containerRef.current.scrollLeft = start * pxpsec
-        } else {
-            // full+fit
-            pxPerSecRef.current = 0
-            wsRef.current.zoom(0)
-            containerRef.current.scrollLeft = 0
+    /* colour helper – green‑yellow → red (like borismus’ getFullColor) */
+    const ampToColor = v => {
+        const hue = 62 - 62 * (v / 255);
+        return `hsl(${hue},100%,50%)`;
+    };
+
+    /* main render loop – all coords in device pixels */
+    const draw = () => {
+        const canvas  = canvasRef.current;
+        const ctx     = canvas.getContext('2d');
+        const dpr     = dprRef.current;
+
+        const widthPx  = canvas.width;    // device‑pixel geometry
+        const heightPx = canvas.height;
+
+        const scrollPx = CSS_SCROLL_PX * dpr; // how far to move & how wide to paint
+
+        /* scroll old bitmap left */
+        ctx.drawImage(canvas, -scrollPx, 0);
+
+        /* clear the stripe that will hold new data */
+        ctx.clearRect(widthPx - scrollPx, 0, scrollPx, heightPx);
+
+        /* fetch one FFT slice */
+        const bins = analyserRef.current.frequencyBinCount;
+        const data = new Uint8Array(bins);
+        analyserRef.current.getByteFrequencyData(data);
+
+        /* paint right‑hand stripe */
+        for (let y = 0; y < heightPx; y++) {
+            const bin = LOG_Y
+                ? Math.round(Math.pow(y / heightPx, 2) * (bins - 1))  // log scale
+                : Math.round((y / heightPx) * (bins - 1));            // linear scale
+            const val = data[bin];
+
+            ctx.fillStyle = ampToColor(val);
+            ctx.fillRect(widthPx - scrollPx, heightPx - 1 - y, scrollPx, 1);
         }
-    }, [zoomWindow, focusTime, isReady, duration])
 
+        rafRef.current = requestAnimationFrame(draw);
+    };
+
+    /* UI handlers */
+    const handlePlayPause = () => {
+        if (!audioUrl) return;
+
+        if (isPlaying) {
+            audioRef.current.pause();
+            cancelAnimationFrame(rafRef.current);
+        } else {
+            /* user gesture resumes the AudioContext */
+            ctxRef.current.resume().then(() => {
+                audioRef.current.play();
+                rafRef.current = requestAnimationFrame(draw);
+            });
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const handleFileUpload = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const url = URL.createObjectURL(file);
+        setAudioUrl(url);
+        setIsPlaying(false);   // reset play state
+    };
+
+    /* render */
     return (
-        <section className="space-y-6">
-            <h1 className="text-2xl font-semibold">Interactive Spectrogram</h1>
+        <main className="flex min-h-[60vh] flex-col items-center gap-6 p-4">
+            <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
 
-            {/* File picker */}
-            <label className="inline-block cursor-pointer rounded bg-gray-800 px-4 py-2 hover:bg-gray-700">
-                Choose audio/video…
-                <input type="file" accept="audio/*,video/*" className="hidden" onChange={onFile} />
-            </label>
-            {fileName && <p className="text-sm text-gray-400">Loaded: {fileName}</p>}
+            <canvas
+                ref={canvasRef}
+                width="800"
+                height="400"
+                className="border rounded-lg bg-black w-full max-w-4xl"
+            />
 
-            {/* Controls */}
-            {isReady && (
-                <div className="flex flex-wrap items-center gap-4">
-                    <button
-                        className="rounded bg-gray-700 px-4 py-1 hover:bg-gray-600"
-                        onClick={() => wsRef.current.playPause()}
-                    >
-                        ▶/⏸
-                    </button>
-
-                    <label className="flex items-center gap-2">
-                        Scale:
-                        <select
-                            className="rounded bg-gray-700 p-1"
-                            value={scale}
-                            onChange={(e) => setScale(e.target.value)}
-                        >
-                            <option value="linear">Linear</option>
-                            <option value="log">Log</option>
-                        </select>
-                    </label>
-
-                    <label className="flex items-center gap-2">
-                        Window (s):
-                        <input
-                            type="number"
-                            className="w-16 rounded bg-gray-700 p-1 text-right"
-                            min={0}
-                            max={duration}
-                            step={0.5}
-                            value={zoomWindow}
-                            onChange={(e) => setZoomWindow(Number(e.target.value))}
-                        />
-                    </label>
-
-                    <label className="flex items-center gap-2">
-                        Focus @ (s):
-                        <input
-                            type="number"
-                            className="w-20 rounded bg-gray-700 p-1 text-right"
-                            min={0}
-                            max={duration}
-                            step={0.1}
-                            value={focusTime}
-                            onChange={(e) => setFocusTime(Number(e.target.value))}
-                        />
-                    </label>
-                </div>
-            )}
-
-            {/* Spectrogram */}
-            <div
-                ref={containerRef}
-                className="relative overflow-x-auto overflow-y-hidden border border-gray-700"
-            >
-                <div
-                    ref={playHeadRef}
-                    className="absolute top-0 bottom-0 w-px bg-red-500 pointer-events-none"
+            <div className="flex gap-4 items-center">
+                <input
+                    type="file"
+                    accept="audio/*"
+                    onChange={handleFileUpload}
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full
+                     file:border-0 file:text-sm file:font-semibold
+                     file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                 />
-                <div ref={spectroRef} />
+                <button
+                    onClick={handlePlayPause}
+                    disabled={!audioUrl}
+                    className="px-6 py-2 bg-blue-500 text-white rounded-full
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     hover:bg-blue-600 transition-colors"
+                >
+                    {isPlaying ? 'Pause' : 'Play'}
+                </button>
             </div>
-        </section>
-    )
+
+            {audioUrl && (
+                <audio
+                    ref={audioRef}
+                    src={audioUrl}
+                    onEnded={() => setIsPlaying(false)}
+                    hidden
+                />
+            )}
+        </main>
+    );
 }
 
-Spectrogram.layoutOpts = { fullWidth: true }
+export default withLayout(Spectrogram);

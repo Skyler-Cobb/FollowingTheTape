@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout'
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 /**
  * Pages can export:

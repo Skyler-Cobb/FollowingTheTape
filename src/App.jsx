@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { ErrorBoundary } from './components/ErrorBoundary';
 import Home from './pages/Home'
 import Hints from './pages/Hints'
 import Decoder from './pages/tools/Decoder'
@@ -19,7 +20,14 @@ function App() {
                 <Route path="/" element={<Home title="Following The Tapes" />} />
                 <Route path="/hints" element={<Hints />} />
                 <Route path="/tools/decoder" element={<Decoder />} />
-                <Route path="/tools/spectrogram" element={<Spectrogram />} />
+                <Route
+                    path="/tools/spectrogram"
+                    element={
+                        <ErrorBoundary>
+                            <Spectrogram />
+                        </ErrorBoundary>
+                    }
+                />
                 <Route path="/resources/uploads" element={<Uploads />} />
                 <Route path="/resources/transcripts" element={<Transcripts />} />
                 <Route path="/resources/recordings" element={<Recordings />} />
