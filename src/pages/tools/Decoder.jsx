@@ -1,6 +1,7 @@
 // src/pages/tools/Decoder.jsx
 import React, { useEffect, useMemo, useState } from 'react'
 import withLayout from '../../hoc/withLayout.jsx'
+import {assetUrl} from "../../lib/assetUrl.js";
 
 /* --------------------------------------------------------------------
    1. Helpers (unchanged except where noted)
@@ -241,7 +242,7 @@ function Decoder() {
             await Promise.all(
                 moduleFiles.map(async (f) => {
                     try {
-                        const res = await fetch(`/resources/modules/${encodeURIComponent(f)}`)
+                        const res = await fetch(assetUrl(`/resources/modules/${encodeURIComponent(f)}`))
                         if (res.ok) map[f.replace(/\.json$/i, '')] = await res.json()
                     } catch {}
                 })
@@ -249,7 +250,7 @@ function Decoder() {
             setModules(map)
 
             try {
-                const res = await fetch('/resources/data/dictionary.txt')
+                const res = await fetch(assetUrl('/resources/data/dictionary.txt'))
                 if (res.ok) {
                     const txt = await res.text()
                     setDict(new Set(txt.split(/\r?\n/).map((w) => w.trim().toUpperCase())))

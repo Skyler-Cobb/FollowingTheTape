@@ -74,7 +74,7 @@ function Spectrogram() {
     useEffect(()=>{ playR.current = isPlaying;  },[isPlaying]);
 
     /* set up AudioContext once */
-    useEffect(()=>{
+    useEffect(() => {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const an  = ctx.createAnalyser();
         an.fftSize               = FFT_SIZE;
@@ -85,8 +85,17 @@ function Spectrogram() {
         ctxRef.current = ctx;
         anaRef.current = an;
 
-        return () => ctx.close();
-    },[]);
+        /* ------------- CLEAN‑UP ------------- */
+        return () => {
+            /* stop the draw loop if it’s still running */
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current);
+                rafRef.current = null;
+            }
+            ctx.close();               // closes AudioContext to free hardware
+        };
+    }, []);
+
 
     /* connect graph + size canvases */
     useEffect(()=>{

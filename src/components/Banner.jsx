@@ -1,4 +1,5 @@
 import React from 'react'
+import {assetUrl} from "../lib/assetUrl.js";
 
 /**
  *  • fixed h-24   → 6 rem (≈ 96 px) regardless of viewport width
@@ -9,7 +10,7 @@ import React from 'react'
 export default function Banner() {
     return (
         <img
-            src="/assets/banner.jpg"          // put banner.jpg in your public/assets
+            src={assetUrl('/assets/banner.jpg')}
             alt="Following The Tapes banner"
             className="h-24 w-full object-cover object-center select-none"
             draggable={false}

@@ -1,0 +1,1 @@
+export const assetUrl = (p) => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`;

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import withLayout from '../../hoc/withLayout.jsx'
+import SafeMarkdown from "../../components/SafeMarkdown.jsx";
+import {assetUrl} from "../../lib/assetUrl.js";
 
 const PAGE_TITLE = 'Transcripts'
 const transcriptsMeta = [
@@ -17,8 +19,8 @@ const transcriptsMeta = [
     { id: '10', label: 'Your Personal Deal Guy',                                file: '[10] Your Personal Deal Guy.md' },
     { id: '11', label: '833-NO-BRINR',                                          file: '[11] 833-NO-BRINR.md' },
     { id: '12', label: 'WARNING... SEVERE WEATHER ALERT IN EFFECT UNTIL 6AM',   file: '[12] WARNING... SEVERE WEATHER ALERT IN EFFECT UNTIL 6AM.md' },
-    { id: '11', label: '7. Majors!',                                            file: '[13] 7. Majors!.md' },
-    { id: '11', label: 'Up! Up! Up!',                                           file: '[14] Up! Up! Up!.md' },
+    { id: '13', label: '7. Majors!',                                            file: '[13] 7. Majors!.md' },
+    { id: '14', label: 'Up! Up! Up!',                                           file: '[14] Up! Up! Up!.md' },
 ]
 
 function Transcripts() {
@@ -28,7 +30,7 @@ function Transcripts() {
     const [markdownBody, setMarkdownBody] = useState('')
 
     useEffect(() => {
-        fetch(`/transcripts/${selected.file}`)
+        fetch(assetUrl(`/transcripts/${selected.file}`))
             .then((res) => {
                 if (!res.ok) throw new Error(res.status)
                 return res.text()
@@ -67,9 +69,9 @@ function Transcripts() {
                 <h2 className="mb-4 text-xl font-semibold">{PAGE_TITLE}</h2>
 
                 {embedHtml && (
-                    <div
+                    <SafeMarkdown
                         className="mb-6 aspect-video w-full overflow-hidden rounded-md"
-                        dangerouslySetInnerHTML={{ __html: embedHtml }}
+                        html={embedHtml}
                     />
                 )}
 
