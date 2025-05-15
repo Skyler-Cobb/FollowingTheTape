@@ -5,17 +5,20 @@ import withLayout from '../../hoc/withLayout.jsx'
 
 const PAGE_TITLE = 'Transcripts'
 const transcriptsMeta = [
-    { id: '1',  label: '1. the house with the strange light',         file: '[1] 1. the house with the strange light.md' },
-    { id: '2',  label: '???????',                                      file: '[2] ？？？？？？？.md' },
-    { id: '3',  label: '2. the abandoned car',                         file: '[3] 2. the abandoned car.md' },
-    { id: '4',  label: '3. ....more coffee?',                         file: '[4] 3. ....more coffee？.md' },
-    { id: '5',  label: '$$$ ORDER YOUR VERY OWN BRINE.... TODAY!!!!', file: '[5] $$$ ORDER YOUR VERY OWN BRINE.... TODAY!!!!.md' },
-    { id: '6',  label: "4. soooo... i've got some news...",           file: "[6] 4. soooo... i've got some news... .md" },
-    { id: '7',  label: '5. the Midnight Riddle Hour',                  file: '[7] 5. the Midnight Riddle Hour.md' },
-    { id: '8',  label: '¿',                                           file: '[8] ¿.md' },
-    { id: '9',  label: '6. are there words?',                         file: '[9] 6. are there words.md' },
-    { id: '10', label: 'Your Personal Deal Guy',                      file: '[10] Your Personal Deal Guy.md' },
-    { id: '11', label: '833-NO-BRINR',                                file: '[11] 833-NO-BRINR.md' },
+    { id: '1',  label: '1. the house with the strange light',                   file: '[1] 1. the house with the strange light.md' },
+    { id: '2',  label: '???????',                                               file: '[2] ？？？？？？？.md' },
+    { id: '3',  label: '2. the abandoned car',                                  file: '[3] 2. the abandoned car.md' },
+    { id: '4',  label: '3. ....more coffee?',                                   file: '[4] 3. ....more coffee？.md' },
+    { id: '5',  label: '$$$ ORDER YOUR VERY OWN BRINE.... TODAY!!!!',           file: '[5] $$$ ORDER YOUR VERY OWN BRINE.... TODAY!!!!.md' },
+    { id: '6',  label: "4. soooo... i've got some news...",                     file: "[6] 4. soooo... i've got some news... .md" },
+    { id: '7',  label: '5. the Midnight Riddle Hour',                           file: '[7] 5. the Midnight Riddle Hour.md' },
+    { id: '8',  label: '¿',                                                     file: '[8] ¿.md' },
+    { id: '9',  label: '6. are there words?',                                   file: '[9] 6. are there words.md' },
+    { id: '10', label: 'Your Personal Deal Guy',                                file: '[10] Your Personal Deal Guy.md' },
+    { id: '11', label: '833-NO-BRINR',                                          file: '[11] 833-NO-BRINR.md' },
+    { id: '12', label: 'WARNING... SEVERE WEATHER ALERT IN EFFECT UNTIL 6AM',   file: '[12] WARNING... SEVERE WEATHER ALERT IN EFFECT UNTIL 6AM.md' },
+    { id: '11', label: '7. Majors!',                                            file: '[13] 7. Majors!.md' },
+    { id: '11', label: 'Up! Up! Up!',                                           file: '[14] Up! Up! Up!.md' },
 ]
 
 function Transcripts() {
@@ -90,7 +93,7 @@ function Transcripts() {
             </aside>
 
             {/* ── Transcript Viewer ────────────────────────────────── */}
-            <section className="prose flex-1 overflow-y-auto p-6">
+            <section className="prose max-w-none flex-1 overflow-y-auto p-6">
                 {title && <h1 className="mb-4 text-2xl font-bold">{title}</h1>}
                 <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
@@ -99,7 +102,7 @@ function Transcripts() {
                             return (
                                 <table
                                     {...props}
-                                    className="transcript-table w-full border-collapse"
+                                    className="transcript-table w-full table-fixed border-collapse"
                                 />
                             )
                         },

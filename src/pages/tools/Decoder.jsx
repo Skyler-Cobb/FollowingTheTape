@@ -218,6 +218,7 @@ const moduleFiles = [
     'Morse Code.json',
     'Number-Dot Cipher.json',
     'T9 Cipher.json',
+    '1337.json',
 ]
 
 function Decoder() {

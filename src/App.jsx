@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import { ErrorBoundary } from './components/ErrorBoundary';
 import Home from './pages/Home'
 import Hints from './pages/Hints'
@@ -12,6 +12,8 @@ import Sightings from './pages/resources/Sightings'
 import AboutTheCreator from './pages/meta/AboutTheCreator'
 import AboutThisSite from './pages/meta/AboutThisSite'
 import NotFound from "./pages/NotFound.jsx";
+import Resources from "./pages/Resources.jsx";
+import Links from "./pages/Links.jsx";
 
 function App() {
     return (
@@ -28,10 +30,12 @@ function App() {
                         </ErrorBoundary>
                     }
                 />
-                <Route path="/resources/uploads" element={<Uploads />} />
-                <Route path="/resources/transcripts" element={<Transcripts />} />
-                <Route path="/resources/recordings" element={<Recordings />} />
-                <Route path="/resources/sightings" element={<Sightings />} />
+                <Route path="/resources" element={<Resources />} />
+                    <Route path="/resources/uploads" element={<Uploads />} />
+                    <Route path="/resources/transcripts" element={<Transcripts />} />
+                    <Route path="/resources/recordings" element={<Recordings />} />
+                    <Route path="/resources/sightings" element={<Sightings />} />
+                <Route path="/links" element={<Links />} />
                 <Route path="/meta/about-the-creator" element={<AboutTheCreator />} />
                 <Route path="/meta/about-this-site" element={<AboutThisSite />} />
                 <Route path="*" element={<NotFound title="404 – Page Not Found" />} />

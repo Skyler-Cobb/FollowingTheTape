@@ -179,3 +179,22 @@ button:focus-visible {
 .animate-spin {
   animation: spin 1s linear infinite;
 }
+
+/* TRANSCRIPT SPECIFIC CSS */
+
+/* lock Timestamp column to ~7 rem (≈ HH:MM:SS.mmm) */
+.transcript-table th:first-child,
+.transcript-table td:first-child {
+  width: 7rem;           /* desktop */
+}
+@media (max-width: 640px) {          /* shrink gracefully on phones */
+  .transcript-table th:first-child,
+  .transcript-table td:first-child {
+    width: 4.5rem;
+  }
+}
+
+/* allow dialogue to wrap instead of forcing the cell wider */
+.transcript-table td {
+  overflow-wrap: anywhere;
+}

@@ -28,10 +28,11 @@ const siteMap = [
     {
         kind: "dropdown",
         label: "Links",
+        to: "/links",
         items: [
             {
                 kind: "external",
-                label: "Official YouTube Channel",
+                label: "Official YT Channel",
                 url: "https://www.youtube.com/@followthetape",
             },
             {
