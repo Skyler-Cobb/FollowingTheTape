@@ -198,3 +198,54 @@ button:focus-visible {
 .transcript-table td {
   overflow-wrap: anywhere;
 }
+
+/* --------------------------------------------------------------------------
+   5) Hints page styling
+   -------------------------------------------------------------------------- */
+
+/* border, rounding, spacing for each hint block */
+.hint-detail {
+  border: 1px solid #e5e7eb;    /* gray-200 */
+  border-radius: 0.375rem;      /* rounded-md */
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+@media (prefers-color-scheme: dark) {
+  .hint-detail {
+    border-color: #374151;      /* gray-700 */
+  }
+}
+
+/* summary bar */
+.hint-summary {
+  cursor: pointer;
+  padding: 0.5rem 1rem;         /* px-4 py-2 */
+  font-weight: 500;             /* font-medium */
+  background-color: #f9fafb;    /* gray-50 */
+  color: #111827;               /* gray-900 */
+  transition: background-color 0.2s;
+}
+.hint-summary:hover {
+  background-color: #e5e7eb;    /* gray-200 */
+}
+
+@media (prefers-color-scheme: dark) {
+  .hint-summary {
+    background-color: #1f2937;  /* gray-800 */
+    color: rgba(255,255,255,0.87);
+  }
+  .hint-summary:hover {
+    background-color: #374151;  /* gray-700 */
+  }
+}
+
+/* revealed content */
+.hint-content {
+  padding: 0.5rem 1rem;         /* px-4 py-2 */
+  color: #111827;               /* gray-900 */
+}
+@media (prefers-color-scheme: dark) {
+  .hint-content {
+    color: rgba(255,255,255,0.87);
+  }
+}
