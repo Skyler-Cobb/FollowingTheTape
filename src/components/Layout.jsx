@@ -12,14 +12,14 @@ export default function Layout({ children, title, layoutOpts = {} }) {
     /* build <main> class list */
     const mainClasses = [
         flex && 'flex',                // side-by-side scrolling panes (e.g. Transcripts)
-        'w-full p-4 overflow-hidden',  // always
+        'w-full p-4 overflow-auto',  // always
         fullWidth ? 'flex-1' : 'flex-1 mx-auto max-w-7xl', // centred vs full-bleed
     ]
         .filter(Boolean)
         .join(' ')
 
     return (
-        <div className="flex h-screen flex-col">
+        <div className="flex min-h-screen flex-col">
             <header className="flex-shrink-0 w-full">
                 <Banner />
                 <Navbar />
