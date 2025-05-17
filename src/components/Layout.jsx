@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import Banner from './Banner'
-import Navbar from './Navbar'
+import Navbar from './NavBar'
 
 export default function Layout({ children, title, layoutOpts = {} }) {
     const { fullWidth = false, flex = false } = layoutOpts
