@@ -1,7 +1,7 @@
 // src/pages/Hints.jsx
 
 import React from 'react';
-import withLayout from '../hoc/withLayout.jsx';
+import withLayout from '../../hoc/withLayout.jsx';
 
 const PAGE_TITLE = 'Hints';
 

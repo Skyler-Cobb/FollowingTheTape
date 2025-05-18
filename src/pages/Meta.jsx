@@ -1,9 +1,9 @@
 import React from 'react';
-import withLayout from '../../../hoc/withLayout.jsx';
+import withLayout from '../hoc/withLayout.jsx';
 
-const PAGE_TITLE = 'The Field';
+const PAGE_TITLE = 'Meta';
 
-function TheField() {
+function Meta() {
     return (
         <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
             <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
@@ -14,4 +14,4 @@ function TheField() {
     );
 }
 
-export default withLayout(TheField);
+export default withLayout(Meta);

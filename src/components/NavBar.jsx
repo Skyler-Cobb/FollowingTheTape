@@ -8,18 +8,28 @@ const siteMap = [
     {
         kind: "dropdown",
         label: "Tools",
+        to: "/tools",
         items: [
             { kind: "internal", label: "Decoder", to: "/tools/decoder" },
             { kind: "internal", label: "Spectrogram", to: "/tools/spectrogram" },
         ],
     },
-    { kind: "internal", label: "Hints", to: "/hints" },
+    {
+        kind: "dropdown",
+        label: "Info",
+        to: "/info",
+        items: [
+            { kind: "internal", label: "Knowledge Bank", to: "/info/knowledgebank" },
+            { kind: "internal", label: "Mysteries", to: "/info/mysteries" },
+            { kind: "internal", label: "Hints", to: "/info/hints" },
+        ],
+    },
     {
         kind: "dropdown",
         label: "Resources",
         to: "/resources",
         items: [
-            { kind: "internal", label: "Uploads", to: "/resources/uploads" },
+            { kind: "internal", label: "Archive", to: "/resources/archive" },
             { kind: "internal", label: "Transcripts", to: "/resources/transcripts" },
             { kind: "internal", label: "Recordings", to: "/resources/recordings" },
             { kind: "internal", label: "Sightings", to: "/resources/sightings" },
@@ -45,9 +55,11 @@ const siteMap = [
     {
         kind: "dropdown",
         label: "Meta",
+        to: "/meta",
         items: [
             { kind: "internal", label: "About the Creator", to: "/meta/about-the-creator" },
             { kind: "internal", label: "About this Site", to: "/meta/about-this-site" },
+            { kind: "internal", label: "Site Completion", to: "/meta/site-completion" },
         ],
     },
 ];
