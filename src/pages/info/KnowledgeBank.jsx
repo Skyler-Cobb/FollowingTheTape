@@ -1,7 +1,7 @@
 import React from 'react';
 import withLayout from '../../hoc/withLayout.jsx';
 
-const PAGE_TITLE = 'What We Know';
+const PAGE_TITLE = 'Knowledge Bank';
 
 function KnowledgeBank() {
   return (

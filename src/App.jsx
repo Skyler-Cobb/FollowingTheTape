@@ -32,7 +32,7 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home title="Following The Tapes" />} />
+                <Route path="/" element={<Home title="Following The Tape" />} />
                 <Route path="/info" element={<Info />} />
                     <Route path="/info/knowledgebank" element={<KnowledgeBank />} />
                     <Route path="/info/mysteries" element={<Mysteries />} />

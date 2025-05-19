@@ -214,10 +214,11 @@ function decodeWithModule(module, cipher, dictSet, requirePerfect) {
 ------------------------------------------------------------------------*/
 
 const moduleFiles = [
-    'ABC Multitap.json',
     'Keyboard Symbol Cipher.json',
-    'Morse Code.json',
     'Number-Dot Cipher.json',
+    '2-Left Key Shift.json',
+    'Morse Code.json',
+    'ABC Multitap.json',
     'T9 Cipher.json',
     '1337.json',
 ]

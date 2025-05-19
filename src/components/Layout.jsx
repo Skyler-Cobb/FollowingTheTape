@@ -6,7 +6,7 @@ export default function Layout({ children, title, layoutOpts = {} }) {
     const { fullWidth = false, flex = false } = layoutOpts
 
     useEffect(() => {
-        document.title = title || 'Following The Tapes'
+        document.title = title || 'Following The Tape'
     }, [title])
 
     /* build <main> class list */
