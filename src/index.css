@@ -1,6 +1,10 @@
+/* ─────────────────────────────────────────────────────────────
+   src/index.css   —  unified file (dark mode locked ON)
+   ───────────────────────────────────────────────────────────── */
+
 @import "tailwindcss";
 
-/* ---- custom font: Courier Prime ------------------------------------ */
+/* ---- custom font: Courier Prime ----------------------------------- */
 @font-face {
   font-family: "Courier Prime";
   src: url("public/assets/fonts/CourierPrime-Regular.ttf") format("truetype");
@@ -30,35 +34,43 @@
   font-display: swap;
 }
 
+/* ------------------------------------------------------------------
+   1) Global base
+   ------------------------------------------------------------------ */
 :root {
-  font-family: "Courier Prime", ui-monospace, "SFMono-Regular", "Liberation Mono", Menlo, monospace;
+  /* typography */
+  font-family: "Courier Prime", ui-monospace, "SFMono-Regular",
+  "Liberation Mono", Menlo, monospace;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* **forced dark palette** */
+  color-scheme: dark;                    /* ← tells the browser     */
+  color: rgba(255, 255, 255, 0.87);      /* gray‑200–ish            */
+  background-color: #0f172a;             /* gray‑900                */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+html, body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: inherit;
+  color: inherit;
 }
+
+/* ------------------------------------------------------------------
+   2) Basic elements
+   ------------------------------------------------------------------ */
+a {
+  font-weight: 500;
+  color: #4f6af0;     /* brand‑500 (used elsewhere) */
+  text-decoration: inherit;
+}
+a:hover { color: #647cff; }
 
 h1 {
   font-size: 3.2em;
@@ -72,47 +84,36 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1f2937;   /* gray‑800 */
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
+button:hover          { border-color: #4f6af0; }
 button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+button:focus-visible  { outline: 4px auto -webkit-focus-ring-color; }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* ------------------------------------------------------------------
+   3) Transcript table
+   ------------------------------------------------------------------ */
 
-/* --------------------------------------------------------------------------
-   3) Transcript table styling
-   -------------------------------------------------------------------------- */
 /* cell padding + border */
 .transcript-table th,
 .transcript-table td {
   padding: 0.5rem;
-  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  border-bottom: 1px solid #374151;  /* gray‑700 */
 }
 
 /* first column = Timestamp (smaller + lighter) */
 .transcript-table th:first-child,
 .transcript-table td:first-child {
-  color: #6b7280;      /* gray-500 */
-  font-size: 0.875rem; /* text-sm */
+  width: 7rem;                 /* desktop default */
+  color: #9ca3af;              /* gray‑400 */
+  font-size: 0.875rem;         /* text-sm */
   white-space: nowrap;
+}
+@media (max-width: 640px) {    /* shrink on phones */
+  .transcript-table th:first-child,
+  .transcript-table td:first-child { width: 4.5rem; }
 }
 
 /* subtle, dark zebra stripes */
@@ -120,18 +121,16 @@ button:focus-visible {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* --------------------------------------------------------------------------
-   4) Spectrogram styling
-   -------------------------------------------------------------------------- */
+/* allow dialogue to wrap instead of forcing the cell wider */
+.transcript-table td { overflow-wrap: anywhere; }
 
-.spectrogram-vis-container {
-  display: flex;
-  width: 100%;
-  height: 300px;
-}
+/* ------------------------------------------------------------------
+   4) Spectrogram widgets
+   ------------------------------------------------------------------ */
+.spectrogram-vis-container { display: flex; width: 100%; height: 300px; }
 
 .spectrogram-scale {
-  flex: 0 0 60px; /* Fixed width for frequency scale */
+  flex: 0 0 60px;  /* fixed width for frequency scale */
   position: relative;
 }
 
@@ -140,112 +139,58 @@ button:focus-visible {
   overflow-x: auto !important;
   min-width: 100px;
 }
-
-/* Spectrogram canvas sizing */
 .spectrogram-scroll-container canvas {
   height: 300px !important;
   min-width: 100% !important;
 }
 
-.waveform-container {
-  width: 100%;
-  height: 100px;
-  overflow: hidden; /* Prevent waveform scrolling */
-}
-
-.spectrogram-container {
-  height: 300px !important; /* Reduced height */
+.waveform-container   { width: 100%; height: 100px; overflow: hidden; }
+.spectrogram-container{
+  height: 300px !important;
   width: 100%;
   overflow-x: auto !important;
 }
-
 .spectrogram-container canvas {
   height: 300px !important;
   min-width: 100% !important;
   image-rendering: crisp-edges;
 }
 
-/* Add this new rule */
+/* reverse order: waveform on top of spectrogram */
 .visualization-container {
   display: flex;
-  flex-direction: column-reverse; /* Reverse order */
+  flex-direction: column-reverse;
   gap: 1rem;
 }
 
-/* Loading spinner animation */
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
+/* Loading spinner (utility class for React components) */
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 1s linear infinite; }
 
-/* TRANSCRIPT SPECIFIC CSS */
+/* ------------------------------------------------------------------
+   5) Hints page
+   ------------------------------------------------------------------ */
 
-/* lock Timestamp column to ~7 rem (≈ HH:MM:SS.mmm) */
-.transcript-table th:first-child,
-.transcript-table td:first-child {
-  width: 7rem;           /* desktop */
-}
-@media (max-width: 640px) {          /* shrink gracefully on phones */
-  .transcript-table th:first-child,
-  .transcript-table td:first-child {
-    width: 4.5rem;
-  }
-}
-
-/* allow dialogue to wrap instead of forcing the cell wider */
-.transcript-table td {
-  overflow-wrap: anywhere;
-}
-
-/* --------------------------------------------------------------------------
-   5) Hints page styling
-   -------------------------------------------------------------------------- */
-
-/* border, rounding, spacing for each hint block */
+/* wrapper block */
 .hint-detail {
-  border: 1px solid #e5e7eb;    /* gray-200 */
+  border: 1px solid #374151;    /* gray‑700 */
   border-radius: 0.375rem;      /* rounded-md */
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-@media (prefers-color-scheme: dark) {
-  .hint-detail {
-    border-color: #374151;      /* gray-700 */
-  }
+  margin-block: 0.75rem;
 }
 
-/* summary bar */
+/* summary bar (always dark‑style) */
 .hint-summary {
   cursor: pointer;
-  padding: 0.5rem 1rem;         /* px-4 py-2 */
-  font-weight: 500;             /* font-medium */
-  background-color: #f9fafb;    /* gray-50 */
-  color: #111827;               /* gray-900 */
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  background-color: #1f2937;    /* gray‑800 */
+  color: rgba(255,255,255,0.87);
   transition: background-color 0.2s;
 }
-.hint-summary:hover {
-  background-color: #e5e7eb;    /* gray-200 */
-}
-
-@media (prefers-color-scheme: dark) {
-  .hint-summary {
-    background-color: #1f2937;  /* gray-800 */
-    color: rgba(255,255,255,0.87);
-  }
-  .hint-summary:hover {
-    background-color: #374151;  /* gray-700 */
-  }
-}
+.hint-summary:hover { background-color: #374151; } /* gray‑700 */
 
 /* revealed content */
 .hint-content {
-  padding: 0.5rem 1rem;         /* px-4 py-2 */
-  color: #111827;               /* gray-900 */
-}
-@media (prefers-color-scheme: dark) {
-  .hint-content {
-    color: rgba(255,255,255,0.87);
-  }
+  padding: 0.5rem 1rem;
+  color: rgba(255,255,255,0.87);
 }

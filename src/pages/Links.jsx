@@ -1,3 +1,4 @@
+// src/pages/Links.jsx
 import React, { useEffect } from 'react';
 import withLayout from '../hoc/withLayout.jsx';
 
@@ -5,31 +6,29 @@ import withLayout from '../hoc/withLayout.jsx';
    Links.jsx – curated list of useful resources for the ARG
    ------------------------------------------------------------------ */
 
-// Active, high‑value links
 const primaryLinks = [
     {
         label: 'Official YouTube Channel',
         url: 'https://www.youtube.com/@followthetape',
-        description: 'Source of most canon content: videos, shorts, and community posts.'
+        description: 'Source of most canon content: videos, shorts, and community posts.',
     },
     {
         label: 'Reaching Spaces Website',
         url: 'https://reachingspaces.org/',
-        description: 'In‑universe microsite that sporadically updates with new hints.'
+        description: 'In‑universe site that sporadically updates with new content.',
     },
     {
         label: 'Unofficial Subreddit',
         url: 'https://www.reddit.com/r/itsgettinglate/',
-        description: 'Community hub for theories, transcripts, and discoveries.'
+        description: 'Main community for discussing the ARG.',
     },
     {
         label: 'Jude Brewer – “It’s Getting Late”',
         url: 'https://www.judebrewer.com/its-getting-late',
-        description: 'Author’s page chronicling the project’s background.'
+        description: 'Author’s page with info on the project.',
     },
 ];
 
-// Deprecated / vanished Craigslist posts (kept for posterity)
 const craigslistLinks = [
     'https://denver.craigslist.org/hws/d/woodland-park-e-c-i-g-p-c-s/7836932125.html',
     'https://kansascity.craigslist.org/hws/d/altenburg-e-c-i-g-p-c-s/7836934555.html',
@@ -41,19 +40,13 @@ const craigslistLinks = [
 ];
 
 function Links() {
-    /* give the tab a friendlier title while here */
-    useEffect(() => {
-        document.title = 'Links – Following The Tapes';
-    }, []);
+    useEffect(() => void (document.title = 'Links – Following The Tape'), []);
 
     return (
         <>
-            {/* page heading */}
-            <h1 className="mb-8 text-center text-3xl font-semibold">
-                Links
-            </h1>
+            <h1 className="mb-8 text-center text-3xl font-semibold">Links</h1>
 
-            {/* primary resources grid */}
+            {/* primary resources */}
             <section className="mx-auto grid max-w-5xl gap-6 sm:grid-cols-2">
                 {primaryLinks.map(({ label, url, description }) => (
                     <a
@@ -61,15 +54,11 @@ function Links() {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex flex-col rounded-md border border-gray-300 bg-gray-50 p-5 shadow transition-transform hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                        className="group flex flex-col rounded-md border border-gray-700 bg-gray-800 p-5 shadow transition-transform hover:-translate-y-1 hover:shadow-lg"
                     >
-                        <h2 className="text-lg font-medium group-hover:underline">
-                            {label}
-                        </h2>
+                        <h2 className="text-lg font-medium group-hover:underline">{label}</h2>
                         {description && (
-                            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                {description}
-                            </p>
+                            <p className="mt-1 text-sm text-gray-400">{description}</p>
                         )}
                     </a>
                 ))}
@@ -77,7 +66,7 @@ function Links() {
 
             {/* archived / hidden links */}
             <section className="mx-auto mt-10 max-w-5xl">
-                <details className="rounded-md border border-gray-300 bg-gray-50 p-5 dark:border-gray-700 dark:bg-gray-800">
+                <details className="rounded-md border border-gray-700 bg-gray-800 p-5">
                     <summary className="cursor-pointer select-none text-lg font-medium">
                         Archived Craigslist Ads (now offline)
                     </summary>
@@ -89,7 +78,7 @@ function Links() {
                                     href={url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-indigo-600 hover:underline dark:text-indigo-400"
+                                    className="text-indigo-400 hover:underline"
                                 >
                                     {url}
                                 </a>
@@ -102,5 +91,4 @@ function Links() {
     );
 }
 
-/* allow page to inherit global header / nav via layout HOC */
 export default withLayout(Links);

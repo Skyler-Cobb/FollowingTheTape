@@ -1,153 +1,84 @@
-/* ── NavBar.jsx (gap-less, equal-width, flush dropdowns) ── */
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { routes } from '../routes.jsx';   // ← note “.jsx” extension
 
-/* ------- nav data stays unchanged ----------------------------------- */
-const siteMap = [
-    { kind: "internal", label: "Home", to: "/" },
-    {
-        kind: "dropdown",
-        label: "Tools",
-        to: "/tools",
-        items: [
-            { kind: "internal", label: "Decoder", to: "/tools/decoder" },
-            { kind: "internal", label: "Spectrogram", to: "/tools/spectrogram" },
-        ],
-    },
-    {
-        kind: "dropdown",
-        label: "Info",
-        to: "/info",
-        items: [
-            { kind: "internal", label: "Knowledge Bank", to: "/info/knowledgebank" },
-            { kind: "internal", label: "Mysteries", to: "/info/mysteries" },
-            { kind: "internal", label: "Hints", to: "/info/hints" },
-        ],
-    },
-    {
-        kind: "dropdown",
-        label: "Resources",
-        to: "/resources",
-        items: [
-            { kind: "internal", label: "Archive", to: "/resources/archive" },
-            { kind: "internal", label: "Transcripts", to: "/resources/transcripts" },
-            { kind: "internal", label: "Recordings", to: "/resources/recordings" },
-            { kind: "internal", label: "Sightings", to: "/resources/sightings" },
-        ],
-    },
-    {
-        kind: "dropdown",
-        label: "Links",
-        to: "/links",
-        items: [
-            {
-                kind: "external",
-                label: "Official YT Channel",
-                url: "https://www.youtube.com/@followthetape",
-            },
-            {
-                kind: "external",
-                label: "Unofficial Subreddit",
-                url: "https://www.reddit.com/r/itsgettinglate/",
-            },
-        ],
-    },
-    {
-        kind: "dropdown",
-        label: "Meta",
-        to: "/meta",
-        items: [
-            { kind: "internal", label: "About the Creator", to: "/meta/about-the-creator" },
-            { kind: "internal", label: "About this Site", to: "/meta/about-this-site" },
-            { kind: "internal", label: "Site Completion", to: "/meta/site-completion" },
-        ],
-    },
-];
+// First‑level routes that should appear in the nav
+const topRoutes = routes.filter(r => !r.hidden && r.path !== '*');
 
-/* ------- main component --------------------------------------------- */
 export default function NavBar() {
     const { pathname } = useLocation();
+    const [openIdx, setOpenIdx] = useState(null);
 
     return (
         <nav className="bg-gray-900 text-white shadow">
             <ul className="mx-auto flex w-full max-w-7xl list-none">
-                {siteMap.map((item) =>
-                    item.kind === "dropdown" ? (
-                        <Dropdown key={item.label} item={item} pathname={pathname} />
-                    ) : (
-                        <li key={item.label} className="relative flex-1">
-                            <NavLink item={item} active={pathname === item.to} />
+                {topRoutes.map((route, idx) => {
+                    const isActive =
+                        pathname === route.path ||
+                        (route.children && pathname.startsWith(`${route.path}/`));
+
+                    /* -------- DROPDOWN -------- */
+                    if (route.children?.length) {
+                        return (
+                            <li
+                                key={route.path}
+                                className="group relative flex-1"
+                                onMouseEnter={() => setOpenIdx(idx)}
+                                onMouseLeave={() => setOpenIdx(null)}
+                            >
+                                <NavButton to={route.path} active={isActive}>
+                                    {route.label}
+                                </NavButton>
+
+                                <ul
+                                    className={`absolute left-0 top-full hidden w-full divide-y divide-gray-100 rounded-b-md bg-white py-1 text-gray-900 shadow-lg group-hover:block ${
+                                        openIdx === idx ? 'block' : ''
+                                    }`}
+                                >
+                                    {route.children.map(child => (
+                                        <li key={child.path}>
+                                            <NavButton
+                                                to={`${route.path}/${child.path}`}
+                                                dropdown
+                                            >
+                                                {child.label}
+                                            </NavButton>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        );
+                    }
+
+                    /* -------- TOP‑LEVEL -------- */
+                    return (
+                        <li key={route.path} className="relative flex-1">
+                            <NavButton to={route.path} active={isActive}>
+                                {route.label}
+                            </NavButton>
                         </li>
-                    )
-                )}
+                    );
+                })}
             </ul>
         </nav>
     );
 }
 
-/* ------- helpers ----------------------------------------------------- */
-function NavLink({ item, active, dropdown = false }) {
-    /* full-width clickable rectangle, centred label */
+/* ---- shared link styling ---- */
+function NavButton({ to, children, active = false, dropdown = false }) {
     const base =
-        "flex h-full w-full items-center justify-center whitespace-nowrap px-4 py-3 transition-colors duration-150 text-white visited:text-white";
+        'flex h-full w-full items-center justify-center whitespace-nowrap px-4 py-3 transition-colors duration-150';
 
-    const normalBg = dropdown ? "bg-white" : "bg-gray-900";
-    const hoverBg = dropdown ? "hover:bg-gray-100" : "hover:bg-gray-800";
-    const activeBg = dropdown ? "bg-gray-100" : "bg-gray-800";
-
-    const className = [
-        base,
-        dropdown ? "text-gray-900" : "",
-        active ? activeBg : normalBg,
-        hoverBg,
-    ].join(" ");
-
-    if (item.kind === "external") {
-        return (
-            <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={className}
-            >
-                {item.label}
-            </a>
-        );
-    }
+    const activeBg = dropdown ? 'bg-gray-100' : 'bg-gray-800';
+    const normalBg = dropdown ? 'bg-white text-gray-900' : 'bg-gray-900';
+    const hoverBg  = dropdown ? 'hover:bg-gray-100' : 'hover:bg-gray-800';
 
     return (
-        <Link to={item.to} className={className}>
-            {item.label}
+        <Link
+            to={to}
+            className={`${base} ${normalBg} ${hoverBg} ${active ? activeBg : ''}`}
+        >
+            {children}
         </Link>
-    );
-}
-
-function Dropdown({ item, pathname }) {
-    const { label, to, items } = item;
-    const activeParent = to && pathname === to;
-
-    return (
-        <li className="group relative flex-1">
-            {/* parent trigger rectangle */}
-            {to ? (
-                <NavLink
-                    item={{ kind: "internal", label, to }}
-                    active={activeParent}
-                />
-            ) : (
-                <span className="flex h-full w-full cursor-default items-center justify-center bg-gray-900 px-4 py-3 group-hover:bg-gray-800">
-          {label}
-        </span>
-            )}
-
-            {/* dropdown panel — no margin so it touches the trigger */}
-            <ul className="absolute left-0 top-full hidden w-full divide-y divide-gray-100 rounded-b-md bg-white py-1 text-gray-900 shadow-lg group-hover:block">
-                {items.map((child) => (
-                    <li key={child.label}>
-                        <NavLink item={child} dropdown />
-                    </li>
-                ))}
-            </ul>
-        </li>
     );
 }

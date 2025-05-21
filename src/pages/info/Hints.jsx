@@ -1,7 +1,10 @@
 // src/pages/Hints.jsx
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import withLayout from '../../hoc/withLayout.jsx';
+
+/* ------------------------------------------------------------------
+   Hints.jsx – spoiler‑controlled clues for common questions
+   ------------------------------------------------------------------ */
 
 const PAGE_TITLE = 'Hints';
 
@@ -37,31 +40,32 @@ const hintsData = [
 ];
 
 function Hints() {
+    /* friendlier tab title while on the page */
+    useEffect(() => void (document.title = `${PAGE_TITLE} – Following The Tape`), []);
+
     return (
         <main className="flex flex-col items-center gap-8 px-4 py-8 overflow-y-auto">
             <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
+
             <div className="w-full max-w-3xl space-y-8">
                 {hintsData.map((item, qi) => (
                     <section
                         key={qi}
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700"
+                        className="rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md"
                     >
-                        <h2 className="text-2xl font-semibold mb-4">Q: {item.question}</h2>
-                        <div>
-                            {item.hints.map((hint, hi) => (
-                                <details key={hi} className="hint-detail">
-                                    <summary className="hint-summary">
-                                        Hint {hi + 1}
-                                    </summary>
-                                    <p className="hint-content">{hint}</p>
-                                </details>
-                            ))}
+                        <h2 className="mb-4 text-2xl font-semibold">Q: {item.question}</h2>
 
-                            <details className="hint-detail mt-4">
-                                <summary className="hint-summary">Solution</summary>
-                                <p className="hint-content">{item.solution}</p>
+                        {item.hints.map((hint, hi) => (
+                            <details key={hi} className="hint-detail">
+                                <summary className="hint-summary">Hint {hi + 1}</summary>
+                                <p className="hint-content">{hint}</p>
                             </details>
-                        </div>
+                        ))}
+
+                        <details className="hint-detail mt-4">
+                            <summary className="hint-summary">Solution</summary>
+                            <p className="hint-content">{item.solution}</p>
+                        </details>
                     </section>
                 ))}
             </div>

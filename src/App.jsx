@@ -1,59 +1,38 @@
-import React from 'react'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
-import { ErrorBoundary } from './components/ErrorBoundary';
-import NotFound from "./pages/NotFound.jsx";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { routes } from './routes.jsx';
+import NavBar from './components/NavBar.jsx';
 
-import Home from './pages/Home'
+/* ---------------------------------------------------------------
+ *  Recursively flatten nested route objects so <Routes> gets
+ *  a single‑layer array.  Keeps catch‑all '*' intact.
+ * ------------------------------------------------------------- */
+function flatten(route, base = '') {
+    if (route.path === '*') return [{ ...route, fullPath: '*' }];
 
-import Info from './pages/Info'
-import Hints from './pages/info/Hints.jsx'
-import KnowledgeBank from './pages/info/KnowledgeBank.jsx'
-import Mysteries from './pages/info/Mysteries.jsx'
+    const full = route.path.startsWith('/')
+        ? route.path
+        : `${base}${base && !base.endsWith('/') ? '/' : ''}${route.path}`;
 
-import Tools from "./pages/Tools.jsx";
-import Decoder from './pages/tools/Decoder'
-import Spectrogram from './pages/tools/Spectrogram'
+    const here      = { ...route, fullPath: full };
+    const descendants = (route.children || []).flatMap(child =>
+        flatten(child, full)
+    );
 
-import Resources from "./pages/Resources.jsx";
-import Archive from './pages/resources/Archive.jsx'
-import Transcripts from './pages/resources/Transcripts'
-import Recordings from './pages/resources/Recordings'
-import Sightings from './pages/resources/Sightings'
-
-import Links from "./pages/Links.jsx";
-
-import Meta from "./pages/Meta.jsx";
-import AboutTheCreator from './pages/meta/AboutTheCreator'
-import AboutThisSite from './pages/meta/AboutThisSite'
-import SiteCompletion from './pages/meta/SiteCompletion'
-
-
-function App() {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Home title="Following The Tape" />} />
-                <Route path="/info" element={<Info />} />
-                    <Route path="/info/knowledgebank" element={<KnowledgeBank />} />
-                    <Route path="/info/mysteries" element={<Mysteries />} />
-                    <Route path="/info/hints" element={<Hints />} />
-                <Route path="/tools" element={<Tools />} />
-                    <Route path="/tools/decoder" element={<Decoder />} />
-                    <Route path="/tools/spectrogram" element={ <ErrorBoundary> <Spectrogram /> </ErrorBoundary> } />
-                <Route path="/resources" element={<Resources />} />
-                    <Route path="/resources/archive" element={<Archive />} />
-                    <Route path="/resources/transcripts" element={<Transcripts />} />
-                    <Route path="/resources/recordings" element={<Recordings />} />
-                    <Route path="/resources/sightings" element={<Sightings />} />
-                <Route path="/links" element={<Links />} />
-                <Route path="/meta" element={<Meta />} />
-                    <Route path="/meta/about-the-creator" element={<AboutTheCreator />} />
-                    <Route path="/meta/about-this-site" element={<AboutThisSite />} />
-                    <Route path="/meta/site-completion" element={<SiteCompletion />} />
-                <Route path="*" element={<NotFound title="404 – Page Not Found" />} />
-            </Routes>
-        </Router>
-    )
+    return [here, ...descendants];
 }
 
-export default App
+export default function App() {
+    const flatRoutes = routes.flatMap(r => flatten(r));
+
+    return (
+        <Router>
+            <NavBar /> {/* renders once for every page */}
+            <Routes>
+                {flatRoutes.map(({ fullPath, component: C }) => (
+                    <Route key={fullPath} path={fullPath} element={<C />} />
+                ))}
+            </Routes>
+        </Router>
+    );
+}
