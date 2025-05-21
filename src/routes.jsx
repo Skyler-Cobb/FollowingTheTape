@@ -27,6 +27,7 @@ import AboutThisSite   from './pages/meta/AboutThisSite.jsx';
 import SiteCompletion  from './pages/meta/SiteCompletion.jsx';
 
 import { ErrorBoundary } from './components/ErrorBoundary';
+import Uploads from "./pages/info/Uploads.jsx";
 
 /**
  * Each object represents a route.
@@ -47,9 +48,10 @@ export const routes = [
         label: 'Info',
         component: Info,
         children: [
-            { path: 'knowledgebank', label: 'Knowledge Bank', component: KnowledgeBank },
-            { path: 'mysteries',     label: 'Mysteries',      component: Mysteries     },
-            { path: 'hints',         label: 'Hints',          component: Hints         },
+            { path: 'uploads',          label: 'Uploads',           component: Uploads },
+            { path: 'knowledgebank',    label: 'Knowledge Bank',    component: KnowledgeBank },
+            { path: 'mysteries',        label: 'Mysteries',         component: Mysteries     },
+            { path: 'hints',            label: 'Hints',             component: Hints         },
         ],
     },
 

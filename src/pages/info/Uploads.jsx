@@ -1,9 +1,9 @@
 import React from 'react';
 import withLayout from '../../hoc/withLayout.jsx';
 
-const PAGE_TITLE = 'Knowledge Bank';
+const PAGE_TITLE = 'Uploads';
 
-function KnowledgeBank() {
+function Uploads() {
   return (
       <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6">
         <h1 className="text-4xl font-bold tracking-tight">{PAGE_TITLE}</h1>
@@ -14,4 +14,4 @@ function KnowledgeBank() {
   );
 }
 
-export default withLayout(KnowledgeBank);
+export default withLayout(Uploads);
