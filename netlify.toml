@@ -5,6 +5,7 @@
 # optional: pin Node version Netlify should use
 [build.environment]
   NODE_VERSION = "20"
+  VITE_GA_MEASUREMENT_ID = "G-63SH3JJWDE"
 
 [[redirects]]
   from = "/*"

@@ -1,12 +1,14 @@
+// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { routes } from './routes.jsx';
-import NavBar from './components/NavBar.jsx';
 
-/* ---------------------------------------------------------------
- *  Recursively flatten nested route objects so <Routes> gets
- *  a single‑layer array.  Keeps catch‑all '*' intact.
- * ------------------------------------------------------------- */
+import { routes } from './routes.jsx';   // your declarative route tree
+import NavBar       from './components/NavBar.jsx';
+import Analytics    from './components/Analytics.jsx';  // ←‑‑ added
+
+/* --------------------------------------------------------------------------------------
+ * Recursively flatten nested <routes> so <Routes> receives a simple single‑level list.
+ * ------------------------------------------------------------------------------------- */
 function flatten(route, base = '') {
     if (route.path === '*') return [{ ...route, fullPath: '*' }];
 
@@ -14,7 +16,7 @@ function flatten(route, base = '') {
         ? route.path
         : `${base}${base && !base.endsWith('/') ? '/' : ''}${route.path}`;
 
-    const here      = { ...route, fullPath: full };
+    const here        = { ...route, fullPath: full };
     const descendants = (route.children || []).flatMap(child =>
         flatten(child, full)
     );
@@ -27,7 +29,8 @@ export default function App() {
 
     return (
         <Router>
-            <NavBar /> {/* renders once for every page */}
+            <NavBar />       {/* persistent header */}
+            <Analytics />    {/* fires a 'page_view' on every route change */}
             <Routes>
                 {flatRoutes.map(({ fullPath, component: C }) => (
                     <Route key={fullPath} path={fullPath} element={<C />} />

@@ -25,3 +25,6 @@ dist-ssr
 
 # Webstorm Stuff
 .idea/
+
+# Environment variable files
+.env*
