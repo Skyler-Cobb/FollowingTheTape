@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React from 'react';
 import withLayout from '../hoc/withLayout.jsx';
+import BlogFeed from '../components/BlogFeed.jsx';
 
 function Home() {
     return (
@@ -10,7 +11,7 @@ function Home() {
                 Following&nbsp;The&nbsp;Tape
             </h1>
 
-            {/* two-column on large screens, stacked on mobile */}
+            {/* Page intro */}
             <section className="mx-auto flex max-w-5xl flex-col gap-8 lg:flex-row">
                 {/* text blurb */}
                 <article className="flex-1 space-y-4 leading-relaxed">
@@ -29,6 +30,15 @@ function Home() {
                     <p>Enjoy your stay, and don’t forget…</p>
                 </article>
             </section>
+
+            {/* latest blog posts -- commented out for now as it's busted
+
+            <section className="mx-auto max-w-4xl px-4">
+                <BlogFeed />
+            </section>
+
+            */}
+
         </>
     );
 }

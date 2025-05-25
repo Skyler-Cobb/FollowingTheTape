@@ -1,0 +1,197 @@
+{
+  "nodes": [
+    {
+      "id": "entrance1",
+      "type": "entrance",
+      "data": { "label": "tom's" },
+      "connections": { "t1": "" }
+    },
+    {
+      "id": "entrance2",
+      "type": "entrance",
+      "data": { "label": "awesome" },
+      "connections": { "t2": "" }
+    },
+    {
+      "id": "entrance3",
+      "type": "entrance",
+      "data": { "label": "website" },
+      "connections": { "t3": "" }
+    },
+    {
+      "id": "entrance4",
+      "type": "entrance",
+      "data": { "label": "read a bit" },
+      "connections": { "n1": "" }
+    },
+
+    {
+      "id": "t1",
+      "data": { "label": "awesome" },
+      "connections": { "t2": "awesome" }
+    },
+    {
+      "id": "t2",
+      "data": { "label": "WEBSITE!" },
+      "connections": { "t3": "WEBSITE!" }
+    },
+    {
+      "id": "t3",
+      "data": { "label": "How are you finding your experience of Tom's Website so far?" },
+      "connections": {
+        "t4": "Sweet!",
+        "t5": "Cool."
+      }
+    },
+    {
+      "id": "t4",
+      "type": "ending",
+      "attachment": "flip_cassette.jpg",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    },
+    {
+      "id": "t5",
+      "type": "ending",
+      "attachment": "cas6.png",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    },
+
+    {
+      "id": "n1",
+      "data": {
+        "label": "Alvarado, Mikaela.\nCaldwell, Rachael.\nCurtis, Lamont.\nDodson, Alex.\nGardner, Savanah.\nGonzalez, Cory.\nGraves, Vic.\nGutierrez, Martha.\nHaas, Chaya.\nHebert, Dania.\nHowell, Bernard.\nKirby, Ellen.\nMcCann, Alexa.\nMeyer, Zoe.\nMora, Eugene.\nNunez, William.\nRiley, Jeffrey.\nRiley, Paula."
+      },
+      "connections": {
+        "n99": "open",
+        "l1": "close"
+      }
+    },
+    {
+      "id": "l1",
+      "type": "ending",
+      "data": { "label": "Phase VI required" },
+      "connections": {}
+    },
+    {
+      "id": "n99",
+      "type": "ending",
+      "attachment": "cas2.png",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    },
+
+    {
+      "id": "n2",
+      "data": {
+        "label": "Kallah thought back to her childhood. There were many skyfires, but they were inconsistent...\nEven the brightest might disappear for a few nights or even a week, and then return."
+      },
+      "connections": {
+        "n4": "Tell me about the skyfires",
+        "n3": "Tell me about Kallah"
+      }
+    },
+    {
+      "id": "n3",
+      "data": {
+        "label": "She didn't need the skyfires, Kallah told herself. The nightsky had been mostly empty for years now..."
+      },
+      "connections": {
+        "n6": "Tell me where Kallah's going",
+        "n5": "Tell me more about Kallah"
+      }
+    },
+    {
+      "id": "n4",
+      "data": {
+        "label": "Ne had shared many tales of the old days before she climbed the mountain..."
+      },
+      "connections": {
+        "n2": "Tell me about the skyfires",
+        "n5": "Tell me more about Kallah"
+      }
+    },
+    {
+      "id": "n5",
+      "data": {
+        "label": "Kallah broke camp, swiftly eliminating all evidence of her presence..."
+      },
+      "connections": {
+        "n6": "Tell me where Kallah's going",
+        "n7": "Tell me more about Ne"
+      }
+    },
+    {
+      "id": "n6",
+      "data": {
+        "label": "Kallah hoisted her pack and set off along the gully. A stream flowed viscously beside her..."
+      },
+      "connections": {
+        "n0": "Tell me about ...",
+        "n5": "Tell me more about Kallah"
+      }
+    },
+    {
+      "id": "n0",
+      "data": {
+        "label": "Alvarado, Mikaela.\nCaldwell, Rachael.\nCurtis, Lamont.\nDodson, Alex.\nGardner, Savanah.\nGonzalez, Cory.\nGraves, Vic.\nGutierrez, Martha.\nHaas, Chaya.\nHebert, Dania.\nHowell, Bernard.\nKirby, Ellen.\nMcCann, Alexa.\nMeyer, Zoe.\nMora, Eugene.\nNunez, William.\nRiley, Jeffrey.\nRiley, Paula."
+      },
+      "connections": {
+        "n99": "open",
+        "l1": "close"
+      }
+    },
+    {
+      "id": "n7",
+      "data": {
+        "label": "Ne had been gone for over 50 nights. Kallah had kept careful track for the first few tendays..."
+      },
+      "connections": {
+        "n100": "Tell me",
+        "n8": "Tell me more"
+      }
+    },
+    {
+      "id": "n8",
+      "data": {
+        "label": "As Kallah crested a rise, she caught a glimpse of a creature far in the distance..."
+      },
+      "connections": {
+        "n101": "Tell me",
+        "n9": "Tell me more"
+      }
+    },
+    {
+      "id": "n9",
+      "data": {
+        "label": "The Citadel was only an hour away, by the most direct route. The most direct route also happened to be suicide..."
+      },
+      "connections": {
+        "n102": "Tell me",
+        "l1": "Tell me more"
+      }
+    },
+    {
+      "id": "n100",
+      "type": "ending",
+      "attachment": "cas3.png",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    },
+    {
+      "id": "n101",
+      "type": "ending",
+      "attachment": "cas4.png",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    },
+    {
+      "id": "n102",
+      "type": "ending",
+      "attachment": "cas5.png",
+      "data": { "label": "I heard you like tapes" },
+      "connections": {}
+    }
+  ]
+}

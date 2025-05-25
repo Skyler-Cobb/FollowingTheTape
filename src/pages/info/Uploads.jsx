@@ -3,10 +3,22 @@ import React, { useEffect, useMemo, useState } from 'react';
 import withLayout from '../../hoc/withLayout.jsx';
 import Papa from 'papaparse';
 
-/* 1) CSV – lives at  src/resources/data/uploads.csv  */
-import uploadsCsv from '../../resources/data/uploads.csv?raw';
+/* ------------------------------------------------------------------ */
+/* 1)  Where the data lives                                           */
+/* ------------------------------------------------------------------ */
+/**
+ * The sheet is published to the web as CSV:
+ *   File ► Share ► Publish to web ► Link ► CSV
+ *   (Netlify + browser can fetch it without CORS issues.)
+ *
+ * If you ever move / duplicate the sheet, only this URL changes.
+ */
+const SHEET_CSV_URL =
+    'https://docs.google.com/spreadsheets/d/e/2PACX-1vRS0Ux_bvBFUJTGux8xrlT0F0PHxZMWRXgReEbyz3Zm3D2XVPeonB0iO1ylYR-bqDR22zgacue65mPa/pub?output=csv';
 
-/* 2) dropdown menus */
+/* ------------------------------------------------------------------ */
+/* 2)  UI filter options                                              */
+/* ------------------------------------------------------------------ */
 const TYPE_OPTIONS = [
     'All',
     'Videos',
@@ -19,16 +31,15 @@ const TYPE_OPTIONS = [
 
 const PERIOD_OPTIONS = ['Any', 'Currently Released', 'Upcoming', 'Archived'];
 
-/* 3) maps & helpers -------------------------------------------------- */
-/* dropdown → set of allowed `type` values in the CSV */
+/* sheet.type → display‑filter mapping */
 const filterMap = {
-    All: null, // no filtering
+    All: null,
     Videos: new Set(['video_main', 'video_side']),
     'Videos (main)': new Set(['video_main']),
     Shorts: new Set(['yt_short']),
     'Community Posts': new Set(['community_post']),
     Sites: new Set(['website']),
-    Other: 'other', // special‑handled below
+    Other: 'other', // handled specially in the filter fn
 };
 
 const periodToStatus = {
@@ -40,7 +51,9 @@ const periodToStatus = {
 
 const PLACEHOLDER = '/assets/thumbnails/placeholder.png';
 
-/* status calculation */
+/* ------------------------------------------------------------------ */
+/* 3)  Helpers                                                        */
+/* ------------------------------------------------------------------ */
 function computeStatus({ archive_date, upload_date }) {
     const today = new Date();
     if (archive_date) return 'archived';
@@ -51,57 +64,86 @@ function computeStatus({ archive_date, upload_date }) {
 function thumbPath(row) {
     const { thumbnail } = row;
 
-    /* empty → placeholder */
     if (!thumbnail) {
         console.log('⛔ thumbnail empty → placeholder', row.name);
         return PLACEHOLDER;
     }
+    if (/^https?:\/\/|^\//i.test(thumbnail)) return thumbnail;
 
-    /* absolute URL case */
-    if (/^https?:\/\/|^\//i.test(thumbnail)) {
-        console.log('🔗 absolute thumb URL:', thumbnail, ' ← ', row.name);
-        return thumbnail;
-    }
-
-    /* build /assets/thumbnails/<file> */
     const url = `/assets/thumbnails/${encodeURIComponent(thumbnail)}`;
-    console.log('🖼️ thumb path:', url, ' ← ', row.name);
     return url;
 }
 
-const uploadsData = Papa.parse(uploadsCsv, {
-    header: true,
-    skipEmptyLines: true,
-    transformHeader: (h) => h.replace(/^\uFEFF/, '').trim().toLowerCase(), // ← new
-    transform: (v) => (v ?? '').trim(),
-}).data.map((row, i) => ({
-    id: row.id || i + 1,
-    type: row.type,
-    upload_type: row.upload_type,
-    status: computeStatus(row),
-    name: row.name,
-    description: row.description,
-    description_alt: row.description_alt,
-    notes: row.notes,
-    upload_date: row.upload_date,
-    archive_date: row.archive_date,
-    link: row.link,
-    file_dl: row.file_dl,
-    thumbnail: row.thumbnail,          // ← now correctly populated
-}));
+function capitalize(str = '') {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-/* 4) component ------------------------------------------------------- */
+/* ------------------------------------------------------------------ */
+/* 4)  Component                                                      */
+/* ------------------------------------------------------------------ */
 function Uploads() {
+    /* page title */
     useEffect(() => {
-        document.title = 'Uploads – Following The Tape';
+        document.title = 'Uploads – Following The Tape';
     }, []);
 
+    /* remote data state */
+    const [uploadsData, setUploadsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    /* filters */
     const [typeFilter, setTypeFilter] = useState('All');
     const [periodFilter, setPeriodFilter] = useState('Any');
 
-    /* ---------- filtering ---------- */
+    /* 4·1  fetch the sheet once on mount */
+    useEffect(() => {
+        let abort = false;
+
+        (async () => {
+            try {
+                const res = await fetch(SHEET_CSV_URL);
+                const csv = await res.text();
+
+                const { data: rows } = Papa.parse(csv, {
+                    header: true,
+                    skipEmptyLines: true,
+                    transformHeader: (h) => h.replace(/^\uFEFF/, '').trim().toLowerCase(),
+                    transform: (v) => (v ?? '').trim(),
+                });
+
+                if (abort) return;
+                setUploadsData(
+                    rows.map((row, idx) => ({
+                        id: row.id || idx + 1,
+                        type: row.type,
+                        upload_type: row.upload_type,
+                        status: computeStatus(row),
+                        name: row.name,
+                        description: row.description,
+                        description_alt: row.description_alt,
+                        notes: row.notes,
+                        upload_date: row.upload_date,
+                        archive_date: row.archive_date,
+                        link: row.link,
+                        file_dl: row.file_dl,
+                        thumbnail: row.thumbnail,
+                    })),
+                );
+            } catch (e) {
+                if (!abort) setError(e);
+            } finally {
+                if (!abort) setLoading(false);
+            }
+        })();
+
+        return () => (abort = true);
+    }, []);
+
+    /* 4·2  derived, filtered rows */
     const rows = useMemo(() => {
         const wantedTypes = filterMap[typeFilter];
+        const wantedStatus = periodToStatus[periodFilter];
 
         return uploadsData.filter((row) => {
             /* type filter */
@@ -119,23 +161,42 @@ function Uploads() {
             } else if (wantedTypes instanceof Set) {
                 typeOk = wantedTypes.has(row.type);
             }
-
             /* period filter */
-            const wantedStatus = periodToStatus[periodFilter];
             const periodOk = !wantedStatus || row.status === wantedStatus;
-
             return typeOk && periodOk;
         });
-    }, [typeFilter, periodFilter]);
+    }, [uploadsData, typeFilter, periodFilter]);
 
-    /* ---------- render ---------- */
+    /* ---------------------------------------------------------------- */
+    /* 4·3  render                                                      */
+    /* ---------------------------------------------------------------- */
+    if (loading) {
+        return (
+            <main className="mx-auto max-w-4xl px-4 py-20 text-center">
+                <p className="animate-pulse text-gray-400">Loading uploads…</p>
+            </main>
+        );
+    }
+    if (error) {
+        return (
+            <main className="mx-auto max-w-4xl px-4 py-20 text-center">
+                <p className="text-red-400">Failed to load uploads.</p>
+                <pre className="mt-4 text-xs text-gray-400">
+          {String(error.message || error)}
+        </pre>
+            </main>
+        );
+    }
+
     return (
         <main className="mx-auto max-w-6xl px-4 py-10">
             <h1 className="mb-8 text-center text-3xl font-bold tracking-tight">
                 Uploads
             </h1>
 
-            {/* filters */}
+            {/* ---------------------------------------------------------------- */}
+            {/* filters                                                         */}
+            {/* ---------------------------------------------------------------- */}
             <div className="mb-6 flex flex-col flex-wrap gap-4 sm:flex-row sm:items-center">
                 <label className="flex items-center gap-2">
                     <span className="text-sm font-medium">Type:</span>
@@ -152,7 +213,7 @@ function Uploads() {
 
                 <label className="flex items-center gap-2">
           <span className="whitespace-nowrap text-sm font-medium">
-            Time Period:
+            Time Period:
           </span>
                     <select
                         value={periodFilter}
@@ -166,7 +227,9 @@ function Uploads() {
                 </label>
             </div>
 
-            {/* table */}
+            {/* ---------------------------------------------------------------- */}
+            {/* table                                                           */}
+            {/* ---------------------------------------------------------------- */}
             <div className="overflow-x-auto rounded border border-gray-700">
                 <table className="min-w-full divide-y divide-gray-700 text-sm">
                     <thead className="bg-gray-900">
@@ -194,9 +257,9 @@ function Uploads() {
 
                         /* ---- DESCRIPTION CELL ---- */
                         const descLines = [];
-                        if (row.description) descLines.push(`YT Desc: ${row.description}`);
+                        if (row.description) descLines.push(`YT Desc: ${row.description}`);
                         if (row.description_alt)
-                            descLines.push(`Site Desc: ${row.description_alt}`);
+                            descLines.push(`Site Desc: ${row.description_alt}`);
                         if (row.notes) descLines.push(`Notes: ${row.notes}`);
                         const descText = descLines.join('\n');
 
@@ -219,7 +282,7 @@ function Uploads() {
                                 <a
                                     key="file"
                                     href={`/resources/files/${row.file_dl}`}
-                                    download={row.file_dl} // Forces the filename
+                                    download={row.file_dl}
                                     className="text-indigo-400 hover:underline"
                                 >
                                     [{row.file_dl}]
@@ -259,10 +322,7 @@ function Uploads() {
 
                     {rows.length === 0 && (
                         <tr>
-                            <td
-                                colSpan={5}
-                                className="px-4 py-6 text-center text-gray-400"
-                            >
+                            <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
                                 No uploads match the selected filters.
                             </td>
                         </tr>
@@ -275,8 +335,3 @@ function Uploads() {
 }
 
 export default withLayout(Uploads);
-
-/* helper to capitalise first letter */
-function capitalize(str = '') {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}

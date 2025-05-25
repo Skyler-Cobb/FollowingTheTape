@@ -1,0 +1,758 @@
+{
+  "nodes": [
+    {
+      "id": "entrance1",
+      "type": "entrance",
+      "data": { "label": "reach out" },
+      "connections": { "m1": "" }
+    },
+    {
+      "id": "entrance2",
+      "type": "entrance",
+      "data": { "label": "login" },
+      "connections": { "l1": "" }
+    },
+    {
+      "id": "m1",
+      "data": {
+        "label": "good morning. you have reached your first space. how does it feel?"
+      },
+      "connections": {
+        "m2": "exhilarating",
+        "m30": "unsure, as I am increasingly numb"
+      }
+    },
+    {
+      "id": "m2",
+      "data": {
+        "label": "exhilarating, like jumping off a cliff?"
+      },
+      "connections": {
+        "m3": "I would never do that",
+        "m22": "um, maybe"
+      }
+    },
+    {
+      "id": "m3",
+      "data": {
+        "label": "we aren't suggesting you would. \"exhilarating\" implies excitement\n            with a touch of fear, and jumping off a cliff is a hypothetical"
+      },
+      "connections": {
+        "e2": "who's we?",
+        "m4": "rafting is more my style",
+        "m5": "what was the original question?"
+      }
+    },
+    {
+      "id": "m4",
+      "data": {
+        "label": "so you like feeling out of control?"
+      },
+      "connections": {
+        "e1": "Very much so."
+      }
+    },
+    {
+      "id": "m5",
+      "data": {
+        "label": "how are you feeling?"
+      },
+      "connections": {
+        "m6": "exhilarated, like jumping off of a very tall cliff?",
+        "m49": "that wasn't the question."
+      }
+    },
+    {
+      "id": "m6",
+      "data": {
+        "label": "how high is the cliff?"
+      },
+      "connections": {
+        "m7": "10 feet",
+        "m17": "1000 feet"
+      }
+    },
+    {
+      "id": "m7",
+      "data": {
+        "label": "are you kidding me? that's almost nothing."
+      },
+      "connections": {
+        "m8": "I'm easily excited."
+      }
+    },
+    {
+      "id": "m8",
+      "data": {
+        "label": "apparently."
+      },
+      "connections": {
+        "m9": "what excites you?"
+      }
+    },
+    {
+      "id": "m9",
+      "data": {
+        "label": "hey, who's asking the questions here?"
+      },
+      "connections": {
+        "m10": "okay, okay... just let me ask you one question."
+      }
+    },
+    {
+      "id": "m10",
+      "data": {
+        "label": "fine. make it a good one."
+      },
+      "connections": {
+        "m11": "why am I here?",
+        "m12": "what is the answer to the midnight riddle?",
+        "m15": "what is your name?"
+      }
+    },
+    {
+      "id": "m11",
+      "data": {
+        "label": "the same reason we are all here."
+      },
+      "connections": {
+        "m12": "it must have something to do with why I feel so groggy."
+      }
+    },
+    {
+      "id": "m12",
+      "data": {
+        "label": "that is not our place to say"
+      },
+      "connections": {
+        "m13": "okay, then, what is the cause of a hail storm?",
+        "r1": "I think I know what it is."
+      }
+    },
+    {
+      "id": "m13",
+      "data": {
+        "label": "sorry. only one question at a time."
+      },
+      "connections": {
+        "e3": "please?",
+        "m14": "that's ok. i'm just happy to be here with you."
+      }
+    },
+    {
+      "id": "m14",
+      "data": {
+        "label": "that's a very nice thing to say."
+      },
+      "connections": {
+        "e3": "does that mean you'll tell me?",
+        "e4": "well, it's true."
+      }
+    },
+    {
+      "id": "m15",
+      "data": {
+        "label": "we are like the coyote, only without name"
+      },
+      "connections": {
+        "m16": "I heard a story about a coyote once..."
+      }
+    },
+    {
+      "id": "m16",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "e5": "may I ask another question?"
+      }
+    },
+    {
+      "id": "m17",
+      "data": {
+        "label": "that's very high. how do you know how 1000 feet feels?"
+      },
+      "connections": {
+        "m18": "this one time at the coast...",
+        "m20": "this one time in a secret cavern..."
+      }
+    },
+    {
+      "id": "m18",
+      "data": {
+        "label": "that sounds like a nice time. what did you do?"
+      },
+      "connections": {
+        "m19": "I was too young. my dad was visiting. mom wanted to leave."
+      }
+    },
+    {
+      "id": "m19",
+      "data": {
+        "label": "are you still feeling exhilarated?"
+      },
+      "connections": {
+        "e6": "Not as much."
+      }
+    },
+    {
+      "id": "m20",
+      "data": {
+        "label": "How do you know about that?"
+      },
+      "connections": {
+        "m21": "I don't know anything about it."
+      }
+    },
+    {
+      "id": "m21",
+      "data": {
+        "label": "Good."
+      },
+      "connections": {
+        "e7": "Good what?"
+      }
+    },
+    {
+      "id": "m22",
+      "data": {
+        "label": "You don't seem very sure."
+      },
+      "connections": {
+        "m23": "i'm not sure of much."
+      }
+    },
+    {
+      "id": "m23",
+      "data": {
+        "label": "do you feel this is pointless?"
+      },
+      "connections": {
+        "m24": "I don't know, I feel a little lost."
+      }
+    },
+    {
+      "id": "m24",
+      "data": {
+        "label": "then you've come to the right space. how about a story?"
+      },
+      "connections": {
+        "m20": "tell me the one about the secret cavern.",
+        "m25": "tell me the one about the girl who disappeared.",
+        "m27": "tell me the one about the coyotes."
+      }
+    },
+    {
+      "id": "m25",
+      "data": {
+        "label": "A girl had disappeared. This made the people who knew the girl very\n            confused. Eventually, their confusion turned to sadness. And their\n            sadness turned to a deeper sadness. The longer the girl was\n            disappeared for, the deeper the sadness grew, until its depth had\n            grown so large that the people had forgotten what they were sad\n            about...and the girl was never spoken of again."
+      },
+      "connections": {
+        "m26": "I don't think I liked that story."
+      }
+    },
+    {
+      "id": "m26",
+      "data": {
+        "label": "What story?"
+      },
+      "connections": {
+        "e8": "I can't remember."
+      }
+    },
+    {
+      "id": "m27",
+      "data": {
+        "label": "Coyote Jack was near death when he saw it. A bright light on a hill.\n            It reached out to him in the form of a hand, and although he knew it\n            was only a trick of the mind, as all minds wander when they begin to\n            slip, he reached out his paw. But Coyote Jack's paw was no longer a\n            paw, it was a hand, just like the hand that was reaching toward him,\n            only his had six fingers, and the hand made of light had ten."
+      },
+      "connections": {
+        "m28": "What happened next?"
+      }
+    },
+    {
+      "id": "m28",
+      "data": {
+        "label": "only Coyote Jack knows."
+      },
+      "connections": {
+        "m29": "I'd like to hear another story."
+      }
+    },
+    {
+      "id": "m29",
+      "data": {
+        "label": "there are no more Coyote Jack stories"
+      },
+      "connections": {
+        "e9": "actually, what I meant was..."
+      }
+    },
+    {
+      "id": "m30",
+      "data": {
+        "label": "have you always felt this way?"
+      },
+      "connections": {
+        "m31": "it's hard to tell. life is like a shoebox.",
+        "m34": "only very recently."
+      }
+    },
+    {
+      "id": "m31",
+      "data": {
+        "label": "how is it like a shoebox?"
+      },
+      "connections": {
+        "m23": "I didn't really think this analogy through.",
+        "m32": "everything but shoes. all out of order.",
+        "r5": "okay, fine. it's more like... a radio."
+      }
+    },
+    {
+      "id": "m32",
+      "data": {
+        "label": "what?"
+      },
+      "connections": {
+        "m24": "i dont know. i feel a little lost.",
+        "m33": "wait, let me try saying that a different way."
+      }
+    },
+    {
+      "id": "m33",
+      "data": {
+        "label": "okay..."
+      },
+      "connections": {
+        "m32": "of all shoes but order everything out."
+      }
+    },
+    {
+      "id": "m34",
+      "data": {
+        "label": "numbness is a natural defense mechanism. there is nothing wrong with\n            you."
+      },
+      "connections": {
+        "m44": "there is plenty wrong with me.",
+        "m35": "thank you."
+      }
+    },
+    {
+      "id": "m35",
+      "data": {
+        "label": "there was a version of you before the numbness. that version still\n            exists."
+      },
+      "connections": {
+        "m36": "where is it?"
+      }
+    },
+    {
+      "id": "m36",
+      "data": {
+        "label": "it is within you. it is waiting to be heard."
+      },
+      "connections": {
+        "m37": "tell me how to hear it"
+      }
+    },
+    {
+      "id": "m37",
+      "data": {
+        "label": "you will hear it when you feel it"
+      },
+      "connections": {
+        "m38": "please. tell me what i can do to free myself of this numbness and\n              feel again."
+      }
+    },
+    {
+      "id": "m38",
+      "data": {
+        "label": "very good. in order to proceed, first, we must have you take a brief\n            quiz. are you ready?"
+      },
+      "connections": {
+        "m39": "I am ready."
+      }
+    },
+    {
+      "id": "m39",
+      "data": {
+        "label": "okay. what is the cause of a hail storm?"
+      },
+      "connections": {
+        "m40": "freezing temperatures"
+      }
+    },
+    {
+      "id": "m40",
+      "data": {
+        "label": "would you like to change your answer?"
+      },
+      "connections": {
+        "m41": "unfortunately, yes. i am in a constant state of doubt.",
+        "e3": "No. I am confident in my knowledge and understanding."
+      }
+    },
+    {
+      "id": "m41",
+      "data": {
+        "label": "ok then, what is the cause of a hail storm"
+      },
+      "connections": {
+        "m42": "the whole is greater than the sum of its parts.",
+        "e3": "freezing temperatures"
+      }
+    },
+    {
+      "id": "m42",
+      "data": {
+        "label": "congratulations. you are ready to..."
+      },
+      "connections": {
+        "n1": "lose all control",
+        "n6": "forget everything I know"
+      }
+    },
+    {
+      "id": "m44",
+      "data": {
+        "label": "it doesn't have to be that way."
+      },
+      "connections": {
+        "m45": "really?",
+        "m46": "evidence tells me otherwise"
+      }
+    },
+    {
+      "id": "m45",
+      "data": {
+        "label": "really."
+      },
+      "connections": {
+        "m38": "please. tell me what i can do to free myself of this numbness and\n              feel again."
+      }
+    },
+    {
+      "id": "m46",
+      "data": {
+        "label": "what is your evidence?"
+      },
+      "connections": {
+        "m47": "for as long as I have attempted to correct all that is wrong with\n              me, I have failed"
+      }
+    },
+    {
+      "id": "m47",
+      "data": {
+        "label": "and yet. there is always more time for correction."
+      },
+      "connections": {
+        "m38": "please. tell me what i can do to free myself of this numbness and\n              feel again.",
+        "m48": "im in a bit of a hurry. how long is this going to take?"
+      }
+    },
+    {
+      "id": "m48",
+      "data": {
+        "label": "depends."
+      },
+      "connections": {
+        "e3": "what's that supposed to mean?"
+      }
+    },
+    {
+      "id": "m49",
+      "data": {
+        "label": "are you sure?"
+      },
+      "connections": {
+        "m23": "ugh."
+      }
+    },
+    {
+      "id": "n1",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "n2": "4.",
+        "e12": "8."
+      }
+    },
+    {
+      "id": "n2",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "n3": "1..",
+        "e12": "3."
+      }
+    },
+    {
+      "id": "n3",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "n4": "8.",
+        "e12": "2.."
+      }
+    },
+    {
+      "id": "n4",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "n5": "2..",
+        "e12": "4."
+      }
+    },
+    {
+      "id": "n5",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "e10": "3.",
+        "e12": "8."
+      }
+    },
+    {
+      "id": "n6",
+      "data": {
+        "label": "what came before sadness?"
+      },
+      "connections": {
+        "n7": "confusion",
+        "e13": "time"
+      }
+    },
+    {
+      "id": "n7",
+      "data": {
+        "label": "and after the sadness?"
+      },
+      "connections": {
+        "n8": "a deeper sadness",
+        "e13": "joy"
+      }
+    },
+    {
+      "id": "n8",
+      "data": {
+        "label": "and then?"
+      },
+      "connections": {
+        "e13": "6.3.",
+        "n9": "6.9."
+      }
+    },
+    {
+      "id": "n9",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "e13": "4.2..7.",
+        "n10": "7.4.2.."
+      }
+    },
+    {
+      "id": "n10",
+      "data": {
+        "label": "..."
+      },
+      "connections": {
+        "e13": "4..9..3.",
+        "e11": "3.9..4.."
+      }
+    },
+    {
+      "id": "e1",
+      "type": "ending",
+      "data": {
+        "label": "Next time, when everything is out of your control, do not forget: 4.\n            1.. 8. 2.. 3."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e2",
+      "type": "ending",
+      "data": {
+        "label": "download it before you forget"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e3",
+      "type": "ending",
+      "data": {
+        "label": "we're sorry, but we've decided to move ahead with a different\n            candidate. we wish you the very best of luck."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e4",
+      "type": "ending",
+      "data": {
+        "label": "here is a token of our gratitude:"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e5",
+      "type": "ending",
+      "data": {
+        "label": "goodnight in five, four, three, two..."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e6",
+      "type": "ending",
+      "data": {
+        "label": "maybe this will cheer you up:"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e7",
+      "type": "ending",
+      "data": {
+        "label": "Bye."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e8",
+      "type": "ending",
+      "data": {
+        "label": "Next time, when you've forgotten everything, don't forget: 6. 9. 7.\n            4. 2.. 3. 9.. 4.."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e9",
+      "type": "ending",
+      "data": {
+        "label": "how about a fun picture instead?"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e10",
+      "type": "ending",
+      "data": {
+        "label": "download it before you forget"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e11",
+      "type": "ending",
+      "data": {
+        "label": "download it before you forget"
+      },
+      "connections": {}
+    },
+    {
+      "id": "e12",
+      "type": "ending",
+      "data": {
+        "label": "You are not ready. Maybe try rafting instead."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e13",
+      "type": "ending",
+      "data": {
+        "label": "You are not ready. Try getting lost first."
+      },
+      "connections": {}
+    },
+    {
+      "id": "e14",
+      "type": "ending",
+      "data": {
+        "label": "T/U I/P Y/I Q/E U/OK/A K/A K/AW/R L/S S/F R/YG/J W/R Q/EL/S T/U V/N W/RR/Y Q/EW/R W/R B/MA/D O/QL/S X/V W/R L/S"
+      },
+      "connections": {}
+    },
+    {
+      "id": "r1",
+      "data": {
+        "label": "That is unlikely"
+      },
+      "connections": {
+        "m13": "is it the past?",
+        "r2": "is it sleep?",
+        "r4": "is it... ?"
+      }
+    },
+    {
+      "id": "r2",
+      "data": {
+        "label": "close... but no"
+      },
+      "connections": {
+        "r3": "is it... ?"
+      }
+    },
+    {
+      "id": "r3",
+      "data": {
+        "label": "you've already asked too many questions."
+      },
+      "connections": {
+        "e3": "please?"
+      }
+    },
+    {
+      "id": "r4",
+      "data": {
+        "label": "careful. you know the rules."
+      },
+      "connections": {
+        "m23": "ugh."
+      }
+    },
+    {
+      "id": "r5",
+      "data": {
+        "label": "yes, riding those frequencies a hundred miles an hour..."
+      },
+      "connections": {
+        "r6": "Exactly! Riding the tuner, the open highway..."
+      }
+    },
+    {
+      "id": "r6",
+      "data": {
+        "label": "yes... This is You, the little rectangle inching along... waiting\n            for clarity..."
+      },
+      "connections": {
+        "r7": "I am waiting for the truth! Waiting for it to surface from a sea\n              of static!"
+      }
+    },
+    {
+      "id": "r7",
+      "data": {
+        "label": "yes... and... ?"
+      },
+      "connections": {
+        "m39": "I am ready.",
+        "e14": "I am the ready."
+      }
+    },
+    {
+      "id": "l1",
+      "type": "ending",
+      "data": {
+        "label": "Login is not currently authorized"
+      },
+      "connections": {}
+    }
+  ]
+}

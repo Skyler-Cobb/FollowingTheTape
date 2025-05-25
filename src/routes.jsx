@@ -5,6 +5,7 @@ import Home            from './pages/Home';
 import NotFound        from './pages/NotFound.jsx';
 
 import Info            from './pages/Info';
+import Uploads         from "./pages/info/Uploads.jsx";
 import KnowledgeBank   from './pages/info/KnowledgeBank.jsx';
 import Mysteries       from './pages/info/Mysteries.jsx';
 import Hints           from './pages/info/Hints.jsx';
@@ -18,6 +19,7 @@ import Archive         from './pages/resources/Archive.jsx';
 import Transcripts     from './pages/resources/Transcripts.jsx';
 import Recordings      from './pages/resources/Recordings.jsx';
 import Sightings       from './pages/resources/Sightings.jsx';
+import Sitemaps        from './pages/resources/Sitemaps.jsx';
 
 import Links           from './pages/Links.jsx';
 
@@ -27,7 +29,6 @@ import AboutThisSite   from './pages/meta/AboutThisSite.jsx';
 import SiteCompletion  from './pages/meta/SiteCompletion.jsx';
 
 import { ErrorBoundary } from './components/ErrorBoundary';
-import Uploads from "./pages/info/Uploads.jsx";
 
 /**
  * Each object represents a route.
@@ -82,6 +83,7 @@ export const routes = [
             { path: 'transcripts', label: 'Transcripts', component: Transcripts },
             { path: 'recordings',  label: 'Recordings',  component: Recordings  },
             { path: 'sightings',   label: 'Sightings',   component: Sightings   },
+            { path: 'sitemaps',   label: 'Sitemaps',   component: Sitemaps   },
         ],
     },
 
