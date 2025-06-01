@@ -1,7 +1,31 @@
 // src/pages/Home.jsx
 import React from 'react';
+import CookieConsent from 'react-cookie-consent';
 import withLayout from '../hoc/withLayout.jsx';
 import BlogFeed from '../components/BlogFeed.jsx';
+
+// Replace with your actual Vite env var key
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
+function loadGA() {
+    if (!GA_ID) return;
+
+    // Load the gtag script
+    const script1 = document.createElement('script');
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    script1.async = true;
+    document.head.appendChild(script1);
+
+    // Initialize GA after script loads
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){window.dataLayer.push(arguments);}  
+    gtag('js', new Date());
+    gtag('config', '${GA_ID}');
+  `;
+    document.head.appendChild(script2);
+}
 
 function Home() {
     return (
@@ -33,12 +57,31 @@ function Home() {
 
             {/* latest blog posts -- commented out for now as it's busted
 
-            <section className="mx-auto max-w-4xl px-4">
-                <BlogFeed />
-            </section>
+      <section className="mx-auto max-w-4xl px-4">
+          <BlogFeed />
+      </section>
 
-            */}
+      */}
 
+            {/* Cookie consent banner */}
+            <CookieConsent
+                location="bottom"
+                buttonText="Accept"
+                declineButtonText="Decline"
+                enableDeclineButton
+                cookieName="ftt_consent"
+                style={{ background: '#2B373B' }}
+                buttonStyle={{ color: '#fff', fontSize: '14px' }}
+                declineButtonStyle={{ color: '#fff', fontSize: '14px' }}
+                onAccept={loadGA}
+                onDecline={() => {
+                    // Optionally clear any existing GA cookies
+                    document.cookie = '_ga=; Max-Age=0; path=/';
+                    document.cookie = '_gid=; Max-Age=0; path=/';
+                }}
+            >
+                We use cookies for analytics to improve the site experience.
+            </CookieConsent>
         </>
     );
 }

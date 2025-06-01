@@ -27,6 +27,8 @@ import Meta            from './pages/Meta.jsx';
 import AboutTheCreator from './pages/meta/AboutTheCreator.jsx';
 import AboutThisSite   from './pages/meta/AboutThisSite.jsx';
 import SiteCompletion  from './pages/meta/SiteCompletion.jsx';
+import ContactMe       from './pages/meta/ContactMe.jsx';
+import Legal           from './pages/meta/Legal.jsx';
 
 import { ErrorBoundary } from './components/ErrorBoundary';
 
@@ -83,7 +85,7 @@ export const routes = [
             { path: 'transcripts', label: 'Transcripts', component: Transcripts },
             { path: 'recordings',  label: 'Recordings',  component: Recordings  },
             { path: 'sightings',   label: 'Sightings',   component: Sightings   },
-            { path: 'sitemaps',   label: 'Sitemaps',   component: Sitemaps   },
+            { path: 'sitemaps',    label: 'Sitemaps',    component: Sitemaps   },
         ],
     },
 
@@ -97,6 +99,8 @@ export const routes = [
             { path: 'about-the-creator', label: 'About the Creator', component: AboutTheCreator },
             { path: 'about-this-site',   label: 'About this Site',   component: AboutThisSite   },
             { path: 'site-completion',   label: 'Site Completion',   component: SiteCompletion  },
+            { path: 'contact-me',        label: 'Contact Me',        component: ContactMe  },
+            { path: 'legal',             label: 'Legal',             component: Legal   },
         ],
     },
 

@@ -1,0 +1,151 @@
+{
+  "metadata": {
+    "title": "Enhanced Mystery Dialogue Tree",
+    "description": "Example of a mystery dialogue with multiple paths and node types",
+    "author": "FollowingTheTape",
+    "created": "2023-05-24T12:00:00Z",
+    "updated": "2023-05-24T18:30:00Z",
+    "version": "1.0"
+  },
+  "nodes": [
+    {
+      "id": "start",
+      "type": "entrance",
+      "data": {
+        "label": "Initial Contact",
+        "description": "The first message from the unknown entity"
+      },
+      "background": "#d1faed",
+      "foreground": "#0f172a",
+      "attachment": "initial_contact.png",
+      "connections": {
+        "question1": "What do you want from me?",
+        "question2": "How did you find me?",
+        "question3": "I don't understand"
+      }
+    },
+    {
+      "id": "question1",
+      "type": "decision",
+      "data": {
+        "label": "What do you want from me?",
+        "metadata": {
+          "tags": ["aggressive", "direct"]
+        }
+      },
+      "connections": {
+        "response1": "That's for you to discover",
+        "clue1": "Look for the key"
+      }
+    },
+    {
+      "id": "question2",
+      "type": "decision",
+      "data": { 
+        "label": "How did you find me?" 
+      },
+      "connections": {
+        "response2": "You left breadcrumbs"
+      }
+    },
+    {
+      "id": "question3",
+      "type": "decision",
+      "data": { 
+        "label": "I don't understand" 
+      },
+      "connections": {
+        "response3": "You will, in time"
+      }
+    },
+    {
+      "id": "response1",
+      "type": "content",
+      "data": { 
+        "label": "That's for you to discover. The path is never straight but always true." 
+      },
+      "connections": {
+        "junction1": "Continue investigation"
+      }
+    },
+    {
+      "id": "clue1",
+      "type": "content",
+      "data": { 
+        "label": "Look for the key where the shadows meet light." 
+      },
+      "connections": {
+        "junction1": "Continue investigation"
+      }
+    },
+    {
+      "id": "response2",
+      "type": "content",
+      "data": { 
+        "label": "You left breadcrumbs throughout your journey. I merely followed." 
+      },
+      "connections": {
+        "junction1": "Continue investigation"
+      }
+    },
+    {
+      "id": "response3",
+      "type": "content",
+      "data": { 
+        "label": "You will, in time. Patience reveals what haste conceals." 
+      },
+      "connections": {
+        "junction1": "Continue investigation"
+      }
+    },
+    {
+      "id": "junction1",
+      "type": "junction",
+      "data": { 
+        "label": "Investigation Continues" 
+      },
+      "background": "#e0f2fe",
+      "connections": {
+        "path1": "Follow the tape markings",
+        "path2": "Search for hidden clues"
+      }
+    },
+    {
+      "id": "path1",
+      "type": "content",
+      "data": { 
+        "label": "The tape markings lead to an old warehouse" 
+      },
+      "attachment": "warehouse.png",
+      "connections": {
+        "ending1": "Discover the truth"
+      }
+    },
+    {
+      "id": "path2",
+      "type": "content",
+      "data": { 
+        "label": "Hidden clues point to an encrypted message" 
+      },
+      "connections": {
+        "ending2": "Decode the message"
+      }
+    },
+    {
+      "id": "ending1",
+      "type": "ending",
+      "data": { 
+        "label": "You discover a room filled with evidence of the conspiracy" 
+      },
+      "background": "#f8d7da"
+    },
+    {
+      "id": "ending2",
+      "type": "ending",
+      "data": { 
+        "label": "The decoded message reveals coordinates to the next location" 
+      },
+      "background": "#f8d7da"
+    }
+  ]
+}

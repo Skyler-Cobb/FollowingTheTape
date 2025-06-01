@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "id": "start",
+      "type": "entrance",
+      "data": { "label": "Homepage" },
+      "connections": {
+        "c1": "About",
+        "c2": "Blog",
+        "c3": "Contact"
+      }
+    },
+    {
+      "id": "about",
+      "data": { "label": "About Us" },
+      "connections": {
+        "c4": "Team",
+        "c5": "History"
+      }
+    },
+    {
+      "id": "blog",
+      "data": { "label": "Blog" },
+      "connections": {
+        "c6": "Latest Posts",
+        "c7": "Categories"
+      }
+    },
+    {
+      "id": "contact",
+      "data": { "label": "Contact" },
+      "connections": {}
+    },
+    {
+      "id": "team",
+      "data": { "label": "Team Members" },
+      "connections": {}
+    },
+    {
+      "id": "history",
+      "data": { "label": "Our History" },
+      "connections": {}
+    },
+    {
+      "id": "latest",
+      "data": { "label": "Latest Posts" },
+      "connections": {}
+    },
+    {
+      "id": "categories",
+      "data": { "label": "Post Categories" },
+      "connections": {
+        "c8": "Tech",
+        "c9": "Lifestyle"
+      }
+    }
+  ]
+}

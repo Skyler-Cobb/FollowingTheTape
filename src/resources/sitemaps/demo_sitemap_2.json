@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "id": "home",
+      "type": "entrance",
+      "data": { "label": "Demo Home" },
+      "connections": {
+        "s1": "Feature A",
+        "s2": "Feature B"
+      }
+    },
+    {
+      "id": "s1",
+      "data": { "label": "Feature A" },
+      "connections": {
+        "s1a": "Detail A1",
+        "s1b": "Detail A2"
+      }
+    },
+    {
+      "id": "s1a",
+      "data": { "label": "Detail A1" },
+      "connections": {
+        "common": "Common Section"
+      }
+    },
+    {
+      "id": "s1b",
+      "data": { "label": "Detail A2" },
+      "connections": {
+        "common": "Common Section"
+      }
+    },
+    {
+      "id": "s2",
+      "data": { "label": "Feature B" },
+      "connections": {
+        "s2a": "Detail B1"
+      }
+    },
+    {
+      "id": "s2a",
+      "data": { "label": "Detail B1" },
+      "connections": {
+        "common": "Common Section"
+      }
+    },
+    {
+      "id": "common",
+      "data": { "label": "Common Section" },
+      "connections": {}
+    }
+  ]
+}
