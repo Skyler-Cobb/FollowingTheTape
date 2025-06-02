@@ -1,8 +1,10 @@
 // src/routes.jsx
 import React from 'react';
 
-import Home            from './pages/Home';
 import NotFound        from './pages/NotFound.jsx';
+
+import Home            from './pages/Home';
+import Updates         from "./pages/home/Updates.jsx";
 
 import Info            from './pages/Info';
 import Uploads         from "./pages/info/Uploads.jsx";
@@ -44,6 +46,9 @@ export const routes = [
         path: '/',
         label: 'Home',
         component: () => <Home title="Following The Tape" />,
+        children: [
+            { path: 'updates',            label: 'Updates',             component: Updates         },
+        ],
     },
 
     {
