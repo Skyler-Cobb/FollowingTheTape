@@ -60,13 +60,26 @@ function Home() {
                 </article>
             </section>
 
-            {/* latest blog posts -- commented out for now as it's busted
+            {/* Latest Update (only 1 post) */}
+            <section className="mx-auto max-w-4xl px-4 mt-10">
+                {/* singular header */}
+                <h2 className="text-2xl font-semibold">Latest&nbsp;Update</h2>
 
-      <section className="mx-auto max-w-4xl px-4">
-          <BlogFeed />
-      </section>
+                {/* only show the newest post in full */}
+                <div className="mt-4">
+                    <BlogFeed limit={1} />
+                </div>
 
-      */}
+                {/* “Read More” button with white text */}
+                <div className="mt-4 text-center">
+                    <a
+                      href="/updates"
+                      className="inline-block rounded bg-indigo-500 px-4 py-2 text-sm font-medium text-white !text-white hover:bg-indigo-600"
+                    >
+                      Read More
+                    </a>
+                </div>
+            </section>
 
             {/* Cookie consent banner */}
             <CookieConsent

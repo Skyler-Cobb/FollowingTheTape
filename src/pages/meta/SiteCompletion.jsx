@@ -21,9 +21,9 @@ const siteMap = [
     {
         name: 'Home',
         path: '/',
-        status: 'MOSTLY_DONE',
+        status: 'COMPLETED',
         children: [
-            { name: 'Updates', path: '/updates', status: 'IN_PROGRESS' },
+            { name: 'Updates', path: '/updates', status: 'COMPLETED' },
         ],
     },
     {
@@ -87,11 +87,11 @@ const progressDetails = {
         'Reduce stuttering/jittery behavior in the Spectrogram',
     ],
     minorUpdates: [
-        'Add "Updates" feed with small, informative updates to the homepage',
+        'Add new/better hints in the hints section, and group hints by type.',
     ],
     majorUpdates: [
         'Rework site formatting to be mobile-friendly',
-        'Add a new wiki with information on various in-universe people, places, and concepts to the site in the "Knowledge Bank" page',
+        'Add a new pseudo-wiki with information on various in-universe people, places, and concepts to the site in the "Knowledge Bank" page',
         'Add all new modules/options to the Decoder, including the ability to use ciphers like the Caesar Cipher/Keyboard Cipher, and chain together different translations (such as "interpret this message using the Keyboard Symbol Cipher, then shift it 3 to the right according to Keyboard Cipher")',
     ],
 };

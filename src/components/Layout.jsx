@@ -22,7 +22,9 @@ export default function Layout({ children, title, layoutOpts = {} }) {
         <div className="flex min-h-screen flex-col">
             <header className="flex-shrink-0 w-full">
                 <Banner />
-                <NavBar />
+                <div className="hidden md:block">
+                    <NavBar />
+                </div>
             </header>
 
             <main className={mainClasses}>{children}</main>

@@ -1,33 +1,42 @@
-// netlify/functions/blog-feed.mjs          (ES module)
-/* eslint-env node */
-import { builder } from '@netlify/functions';
+// netlify/functions/blog-feed.mjs
+const Parser = require('rss-parser');
+const parser = new Parser({
+    timeout: 10000,
+    headers: { 'User-Agent': 'ftt-site/1.0 (+https://write.as/followingthetape/)' }
+});
 
-const FEED_URL =
-    'https://followingthetapes.wordpress.com/wp-json/wp/v2/posts?per_page=10&_fields=title,link,excerpt,date';
+const BLOG     = 'followingthetape';
+const FEED_URL = `https://write.as/${BLOG}/feed/`;
 
-/** Strip basic HTML tags (for <p>, <em>, etc.) */
-const toPlain = (html = '') => html.replace(/<[^>]*>/g, '').trim();
+exports.handler = async () => {
+    try {
+        const feed = await parser.parseURL(FEED_URL);
 
-export const handler = builder(async () => {
-    const resp = await fetch(FEED_URL);
-    if (!resp.ok)
+        // Map each item to include `contentHtml` (the raw `<content:encoded>` HTML)
+        const posts = feed.items.map(item => {
+            const rawHtml = item['content:encoded'] || item.content || '';
+
+            return {
+                title:      item.title || '',
+                link:       item.link || '',
+                date:       item.isoDate || item.pubDate || '',
+                contentHtml: rawHtml
+            };
+        });
+
         return {
-            statusCode: resp.status,
-            body: `Failed to fetch feed (${resp.status})`,
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'public, max-age=0, s-maxage=600'
+            },
+            body: JSON.stringify(posts)
         };
-
-    const posts = await resp.json();
-
-    const items = posts.map((p) => ({
-        title: toPlain(p.title.rendered),
-        link: p.link,
-        date: p.date,
-        excerpt: toPlain(p.excerpt?.rendered ?? ''),
-    }));
-
-    return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(items),
-    };
-}, { ttl: 600 }); // 10‑minute cache at Netlify’s edge
+    } catch (err) {
+        console.error(err);
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ error: err.message })
+        };
+    }
+};
