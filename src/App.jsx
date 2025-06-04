@@ -2,9 +2,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { routes } from './routes.jsx';   // your declarative route tree
-import NavBar       from './components/NavBar.jsx';
-import Analytics    from './components/Analytics.jsx';  // ←‑‑ added
+import { routes } from './routes.jsx';
+import Analytics from './components/Analytics.jsx';  // NavBar import removed
 
 /* --------------------------------------------------------------------------------------
  * Recursively flatten nested <routes> so <Routes> receives a simple single‑level list.
@@ -29,8 +28,7 @@ export default function App() {
 
     return (
         <Router>
-            <NavBar />       {/* persistent header */}
-            <Analytics />    {/* fires a 'page_view' on every route change */}
+            <Analytics />
             <Routes>
                 {flatRoutes.map(({ fullPath, component: C }) => (
                     <Route key={fullPath} path={fullPath} element={<C />} />

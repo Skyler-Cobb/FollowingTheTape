@@ -3,8 +3,8 @@ import React from 'react';
 import CookieConsent from 'react-cookie-consent';
 import withLayout from '../hoc/withLayout.jsx';
 import BlogFeed from '../components/BlogFeed.jsx';
+import NavIcons from "../components/NavIcons.jsx";
 
-// Replace with your actual Vite env var key
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 function loadGA() {
@@ -35,6 +35,10 @@ function Home() {
                 Following&nbsp;The&nbsp;Tape
             </h1>
 
+            <section className="mx-auto mt-8 mb-8 max-w-4xl px-4">
+                <NavIcons />
+            </section>
+
             {/* Page intro */}
             <section className="mx-auto flex max-w-5xl flex-col gap-8 lg:flex-row">
                 {/* text blurb */}
@@ -42,16 +46,17 @@ function Home() {
                     <p>
                         Welcome to <strong>Following&nbsp;The&nbsp;Tape</strong>, a fan-built
                         resource built to compile and track information related to the
-                        “Follow&nbsp;the&nbsp;Tape” ARG from the <em> it’s getting late… </em> YouTube channel.
+                        “Follow the Tape” ARG from the YouTube channel <em> "it’s getting late…"</em>.
                     </p>
 
                     <p>
-                        Here you’ll find information about the arg's universe, tools, transcripts,
-                        hints for those who'd like guidance but not full answers, and
-                        links to other places where the mystery is being unravelled.
+                        Here you’ll find a collection of information, help, and resources shared freely to help
+                        anybody interested in unraveling the mysterious occurrences in the Haven County Area related
+                        to the hailstorm, strange broadcasts, disappearances, and a company dead-set on slowly
+                        taking over every facet of the peoples' lives.
                     </p>
 
-                    <p>Enjoy your stay, and don’t forget…</p>
+                    <p>Enjoy your stay, and remember: don't forget.</p>
                 </article>
             </section>
 

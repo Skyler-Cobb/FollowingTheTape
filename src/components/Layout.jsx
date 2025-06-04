@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Banner from './Banner';
+import NavBar from "./NavBar.jsx";
 
 export default function Layout({ children, title, layoutOpts = {} }) {
     const { fullWidth = false, flex = false } = layoutOpts;
@@ -21,7 +22,7 @@ export default function Layout({ children, title, layoutOpts = {} }) {
         <div className="flex min-h-screen flex-col">
             <header className="flex-shrink-0 w-full">
                 <Banner />
-                {/* NavBar removed (renders globally in App.jsx) */}
+                <NavBar />
             </header>
 
             <main className={mainClasses}>{children}</main>

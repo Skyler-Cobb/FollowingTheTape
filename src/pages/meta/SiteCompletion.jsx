@@ -83,12 +83,11 @@ const siteMap = [
 // ---------------------------------------------------------------------------
 const progressDetails = {
     bugFixes: [
-        'Move Navigation bar back under the site’s banner',
         'Fix errors found in the "Keyboard Symbol Cipher" decoder setting',
+        'Reduce stuttering/jittery behavior in the Spectrogram',
     ],
     minorUpdates: [
         'Add "Updates" feed with small, informative updates to the homepage',
-        'Add icons to help with site navigation on touchscreens, reducing reliance on mouse hover effects',
     ],
     majorUpdates: [
         'Rework site formatting to be mobile-friendly',

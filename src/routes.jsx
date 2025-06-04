@@ -36,42 +36,66 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 
 /**
  * Each object represents a route.
- * `children` are nested and use **relative** paths
- *   (react‑router joins them with the parent path).
- * You can add optional keys (icon, hidden, auth) later without
- * touching router/nav code.
+ * Optional keys (icon, hidden, auth, etc.) can be added
+ * without touching router/nav code.
  */
 export const routes = [
     {
         path: '/',
         label: 'Home',
-        component: () => <Home title="Following The Tape" />,
+        icon: '/assets/nav/home.png',
+        component: Home,
         children: [
-            { path: 'updates',            label: 'Updates',             component: Updates         },
+            { path: 'updates',
+                label: 'Updates',
+                component: Updates,
+                icon: '/assets/nav/updates.png' },
         ],
     },
 
     {
         path: '/info',
         label: 'Info',
+        icon: '/assets/nav/info.png',
         component: Info,
         children: [
-            { path: 'uploads',          label: 'Uploads',           component: Uploads },
-            { path: 'knowledgebank',    label: 'Knowledge Bank',    component: KnowledgeBank },
-            { path: 'mysteries',        label: 'Mysteries',         component: Mysteries     },
-            { path: 'hints',            label: 'Hints',             component: Hints         },
+            { path: 'uploads',
+                label: 'Uploads',
+                component: Uploads,
+                icon: '/assets/nav/uploads.png' },
+
+            { path: 'knowledgebank',
+                label: 'Knowledge Bank',
+                component: KnowledgeBank,
+                icon: '/assets/nav/knowledge-bank.png' },
+
+            { path: 'mysteries',
+                label: 'Mysteries',
+                component: Mysteries,
+                icon: '/assets/nav/mysteries.png' },
+
+            { path: 'hints',
+                label: 'Hints',
+                component: Hints,
+                icon: '/assets/nav/hints.png' },
         ],
     },
 
     {
         path: '/tools',
         label: 'Tools',
+        icon: '/assets/nav/tools.png',
         component: Tools,
         children: [
-            { path: 'decoder',      label: 'Decoder',      component: Decoder },
+            { path: 'decoder',
+                label: 'Decoder',
+                component: Decoder,
+                icon: '/assets/nav/decoder.png' },
+
             {
                 path: 'spectrogram',
                 label: 'Spectrogram',
+                icon: '/assets/nav/spectrogram.png',
                 component: () => (
                     <ErrorBoundary>
                         <Spectrogram />
@@ -84,28 +108,73 @@ export const routes = [
     {
         path: '/resources',
         label: 'Resources',
+        icon: '/assets/nav/resources.png',
         component: Resources,
         children: [
-            { path: 'archive',     label: 'Archive',     component: Archive     },
-            { path: 'transcripts', label: 'Transcripts', component: Transcripts },
-            { path: 'recordings',  label: 'Recordings',  component: Recordings  },
-            { path: 'sightings',   label: 'Sightings',   component: Sightings   },
-            { path: 'sitemaps',    label: 'Sitemaps',    component: Sitemaps   },
+            { path: 'archive',
+                label: 'Archive',
+                component: Archive,
+                icon: '/assets/nav/archive.png' },
+
+            { path: 'transcripts',
+                label: 'Transcripts',
+                component: Transcripts,
+                icon: '/assets/nav/transcripts.png' },
+
+            { path: 'recordings',
+                label: 'Recordings',
+                component: Recordings,
+                icon: '/assets/nav/recordings.png' },
+
+            { path: 'sightings',
+                label: 'Sightings',
+                component: Sightings,
+                icon: '/assets/nav/sightings.png' },
+
+            { path: 'sitemaps',
+                label: 'Sitemaps',
+                component: Sitemaps,
+                icon: '/assets/nav/sitemaps.png' },
         ],
     },
 
-    { path: '/links', label: 'Links', component: Links },
+    {
+        path: '/links',
+        label: 'Links',
+        icon: '/assets/nav/links.png',
+        component: Links,
+    },
 
     {
         path: '/meta',
         label: 'Meta',
+        icon: '/assets/nav/meta.png',
         component: Meta,
         children: [
-            { path: 'about-the-creator', label: 'About the Creator', component: AboutTheCreator },
-            { path: 'about-this-site',   label: 'About this Site',   component: AboutThisSite   },
-            { path: 'site-completion',   label: 'Site Completion',   component: SiteCompletion  },
-            { path: 'contact-me',        label: 'Contact Me',        component: ContactMe  },
-            { path: 'legal',             label: 'Legal',             component: Legal   },
+            { path: 'about-the-creator',
+                label: 'About the Creator',
+                component: AboutTheCreator,
+                icon: '/assets/nav/about-creator.png' },
+
+            { path: 'about-this-site',
+                label: 'About this Site',
+                component: AboutThisSite,
+                icon: '/assets/nav/about-site.png' },
+
+            { path: 'site-completion',
+                label: 'Site Completion',
+                component: SiteCompletion,
+                icon: '/assets/nav/site-completion.png' },
+
+            { path: 'contact-me',
+                label: 'Contact Me',
+                component: ContactMe,
+                icon: '/assets/nav/contact-me.png' },
+
+            { path: 'legal',
+                label: 'Legal',
+                component: Legal,
+                icon: '/assets/nav/legal.png' },
         ],
     },
 

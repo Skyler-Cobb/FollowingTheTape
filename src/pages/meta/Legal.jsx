@@ -1,5 +1,6 @@
 // src/pages/meta/Legal.jsx
 import React, { useState, useEffect } from "react";
+import withLayout from '../../hoc/withLayout.jsx';
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -32,7 +33,7 @@ function Accordion({ title, content }) {
     );
 }
 
-export default function Legal() {
+function Legal() {
     const [termsText, setTermsText] = useState("");
     const [privacyText, setPrivacyText] = useState("");
     const [cookiesText, setCookiesText] = useState("");
@@ -64,3 +65,5 @@ export default function Legal() {
         </main>
     );
 }
+
+export default withLayout(Legal)
